@@ -1,34 +1,43 @@
 import psutil
+import subprocess
 import csv
 
-# Get list of all running processes and their network connections
-connections = []
-for proc in psutil.process_iter(['pid', 'name']):
-    try:
-        connections.extend(proc.connections())
-    except (psutil.NoSuchProcess, psutil.AccessDenied, psutil.ZombieProcess):
-        pass
+def netstat():
+    # Run the netstat command to get a list of all active connections
+    output = subprocess.check_output('netstat -ano', shell=True)
 
-# Extract IP address and URL for each connection
-data = []
-for conn in connections:
-    if conn.status == psutil.CONN_ESTABLISHED and conn.raddr:
-        url = ''
-        ip = conn.raddr.ip
-        try:
-            url = conn.raddr.geturl()
-        except AttributeError:
-            pass
-        data.append({'pid': conn.pid, 'name': psutil.Process(conn.pid).name(), 'ip': ip, 'url': url})
+    # Decode the output as a string and split it into lines
+    output = output.decode('utf-8')
+    lines = output.splitlines()
 
-# Save data to CSV file
-with open('network_connections.csv', 'w', newline='') as csvfile:
-    fieldnames = ['pid', 'name', 'ip', 'url']
-    writer = csv.DictWriter(csvfile, fieldnames=fieldnames)
-    writer.writeheader()
-    for d in data:
-        writer.writerow(d)
+    # Extract information about each connection and store it in a list
+    data = []
+    for line in lines:
+        line = line.strip()
+        if line.startswith('TCP') or line.startswith('UDP'):
+            parts = line.split()
+            proto = parts[0]
+            local_addr = parts[1]
+            remote_addr = parts[2]
+            state = parts[3]
+            pid = parts[-1]
+            data.append({'proto': proto, 'local_addr': local_addr, 'remote_addr': remote_addr, 'state': state, 'pid': pid})
 
-#This script uses the psutil.process_iter method to get a list of all running processes and their network connections. Then, it extracts the IP address and URL for each established connection using the psutil.CONN_ESTABLISHED constant and the raddr attribute. Finally, it saves the data into a CSV file using the csv.DictWriter class.
-
-#Note that this script only extracts the IP address and URL of established connections. If you want to extract other information such as the port number or protocol, you can modify the script accordingly. Also note that some connections may not have a valid URL, so the url field may be empty in some cases.
+    # Use the csv module to create a writer object and write the data to a CSV file
+    with open('netstat.csv', 'w', newline='') as csvfile:
+        fieldnames = ['proto', 'local_addr', 'remote_addr', 'state', 'pid', 'url']
+        writer = csv.DictWriter(csvfile, fieldnames=fieldnames)
+        writer.writeheader()
+        for d in data:
+            # Use the pid to get information about the process, including its executable path
+            try:
+                p = psutil.Process(int(d['pid']))
+                url = ''
+                try:
+                    url = p.exe()
+                except psutil.AccessDenied:
+                    pass
+                d['url'] = url
+            except (psutil.NoSuchProcess, psutil.AccessDenied, ValueError):
+                pass
+            writer.writerow(d)

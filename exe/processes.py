@@ -1,30 +1,30 @@
-import psutil
 import csv
+import hashlib
+import psutil
 
-# Get list of all running processes
-processes = []
-for proc in psutil.process_iter(['pid', 'name', 'username', 'cmdline', 'create_time']):
-    try:
-        processes.append(proc.as_dict(attrs=['pid', 'name', 'username', 'cmdline', 'create_time']))
-    except (psutil.NoSuchProcess, psutil.AccessDenied, psutil.ZombieProcess):
-        pass
+def processes_hash():
+    # Create a list to store the process information
+    process_list = []
 
-# Extract process hash for each process
-for process in processes:
-    try:
-        process_hash = process.as_dict(attrs=['pid', 'name', 'username', 'cmdline', 'create_time'])
-        process['hash'] = hash(str(process_hash))
-    except:
-        process['hash'] = ''
+    # Iterate over all running processes
+    for proc in psutil.process_iter(['name', 'exe', 'pid']):
 
-# Save data to CSV file
-with open('process_hashes.csv', 'w', newline='') as csvfile:
-    fieldnames = ['pid', 'name', 'username', 'cmdline', 'create_time', 'hash']
-    writer = csv.DictWriter(csvfile, fieldnames=fieldnames)
-    writer.writeheader()
-    for process in processes:
-        writer.writerow(process)
+        # Calculate the SHA256 hash of the process executable file
+        try:
+            exe_path = proc.info['exe']
+            if exe_path is None:
+                sha256_hash = 'N/A'
+            else:
+                with open(exe_path, 'rb') as f:
+                    sha256_hash = hashlib.sha256(f.read()).hexdigest()
+        except (psutil.AccessDenied, FileNotFoundError):
+            sha256_hash = 'N/A'
 
-# This script uses the psutil.process_iter method to get a list of all running processes and their attributes such as pid, name, username, cmdline, and create_time. Then, it calculates the hash of each process using the hash function in Python. Finally, it saves the data into a CSV file using the csv.DictWriter class.
+        # Add the process information to the list
+        process_list.append([proc.info['name'], proc.info['pid'], sha256_hash])
 
-# Note that the hash function in Python is not guaranteed to be unique and collisions can occur. Therefore, this script is not suitable for security-critical applications.
+    # Write the process information to a CSV file
+    with open('process_hashes.csv', 'w', newline='') as f:
+        writer = csv.writer(f)
+        writer.writerow(['Name', 'PID', 'Hash'])
+        writer.writerows(process_list)
