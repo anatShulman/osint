@@ -3,6 +3,7 @@ import hashlib
 import csv
 
 def get_subdirectories(directory):
+    #Traverse recursively through a given path and creates a list representing the file-tree from that path.
     subdirectories = []
     for filename in os.listdir(directory):
         file_path = os.path.join(directory, filename)
@@ -12,6 +13,8 @@ def get_subdirectories(directory):
     return subdirectories
 
 def get_hashes(directory = 'Z:\Public'):
+    #Hashes all the currently running processes on the system into a csv file
+    #Using SHA256 algorithm
     dirs = [directory]
     dirs.extend(get_subdirectories(directory))
 
