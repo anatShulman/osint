@@ -1,6 +1,7 @@
 import os
 import hashlib
 import csv
+from CSV_to_MongoDB import *
 
 def get_subdirectories(directory):
     #Traverse recursively through a given path and creates a list representing the file-tree from that path.
@@ -40,3 +41,6 @@ def get_hashes(directory = 'Z:\Public'):
         writer.writerow(['Hash', 'File path','File name'])
         for hash_tuple in hashes:
             writer.writerow(hash_tuple)
+
+
+    upload(os.getcwd()+'\hashes.csv')
