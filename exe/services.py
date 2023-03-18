@@ -1,6 +1,7 @@
 import psutil
 import hashlib
 import csv
+from CSV_to_MongoDB import *
 
 def get_hash(file_path):
     with open(file_path, 'rb') as f:
@@ -19,3 +20,5 @@ def services_hash():
                 writer.writerow([service.name(), binpath, hash_value])
             except Exception as e:
                 pass
+
+    upload(os.getcwd()+'\services_hashes.csv')

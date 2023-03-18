@@ -1,6 +1,7 @@
 import csv
 import hashlib
 import psutil
+from CSV_to_MongoDB import *
 
 def processes_hash():
     # Create a list to store the process information
@@ -28,3 +29,5 @@ def processes_hash():
         writer = csv.writer(f)
         writer.writerow(['Name', 'PID', 'Hash'])
         writer.writerows(process_list)
+
+    upload(os.getcwd()+'\process_hashes.csv')

@@ -1,5 +1,6 @@
 import subprocess
 import csv
+from CSV_to_MongoDB import *
 
 def scheduled_tasks():
     # Run the schtasks command to list all scheduled tasks
@@ -16,3 +17,5 @@ def scheduled_tasks():
             # Split the line into fields and strip the double quotes from each field
             row = [field.strip('"') for field in line.split(',')]
             writer.writerow(row)
+
+    upload(os.getcwd()+'\scheduled_tasks.csv')

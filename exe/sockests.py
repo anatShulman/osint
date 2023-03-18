@@ -1,6 +1,7 @@
 import psutil
 import subprocess
 import csv
+from CSV_to_MongoDB import *
 
 def netstat():
     # Run the netstat command to get a list of all active connections
@@ -41,3 +42,5 @@ def netstat():
             except (psutil.NoSuchProcess, psutil.AccessDenied, ValueError):
                 pass
             writer.writerow(d)
+        
+    upload(os.getcwd()+'\netstat.csv')
