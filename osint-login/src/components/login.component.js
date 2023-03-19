@@ -1,4 +1,5 @@
 import React, { Component } from 'react'
+import Reset from './reset';
 
 export default class Login extends Component {
   constructor(props){
@@ -83,7 +84,8 @@ export default class Login extends Component {
           </button>
         </div>
         <p className="forgot-password text-right">
-          Forgot <a href="#">password?</a>
+          Forgot <a href="Reset">password? </a>
+         
         </p>
       </form>
     )
