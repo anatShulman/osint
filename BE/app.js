@@ -73,7 +73,7 @@ app.post("/userData",async(req,res)=>{
     try{
         const user=jwt.verify(token,JWT_SECRET,(err,res)=>{
             if (err){
-                console.log(err);
+                return "token expired";
             }
             return res;
            
