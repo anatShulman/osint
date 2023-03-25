@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import Reset from './reset';
+
 
 export default class Login extends Component {
   constructor(props){

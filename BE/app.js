@@ -22,7 +22,7 @@ mongoose.connect(mongoUrl,{
 
 require("./userDetails");
 const User=mongoose.model("UserInfo");
-//const Inves=mongoose.model("InvesInfo");
+const Inves=mongoose.model("InvesInfo");
 
 app.post("/register",async(req,res)=>{
     const {fname,lname,email,password}=req.body;
@@ -56,7 +56,7 @@ app.post("/login-user", async(req,res)=>{
     }
     if (await bcrypt.compare(password,user.password)){
         const token=jwt.sign({email:user.email}, JWT_SECRET,{
-            expiresIn:"15m",
+            expiresIn:"10m",
         });
         if (res.status(201)){
             return res.json({status: "ok", data:token});
