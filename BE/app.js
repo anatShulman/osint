@@ -25,7 +25,7 @@ const User=mongoose.model("UserInfo");
 const Inves=mongoose.model("InvesInfo");
 
 app.post("/register",async(req,res)=>{
-    const {fname,lname,email,password}=req.body;
+    const {fname,lname,email,password, userType}=req.body;
 
     const encryptedPassword=await bcrypt.hash(password,10);
     try{
@@ -40,6 +40,7 @@ app.post("/register",async(req,res)=>{
             lname,
             email,
             password :encryptedPassword,
+            userType,
         });
         res.send({status:"OK"});
     } catch (error){

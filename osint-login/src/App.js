@@ -7,6 +7,7 @@ import Login from './components/login.component'
 import SignUp from './components/signup.component'
 import UserDetails from './components/userDetails'
 import Reset from './components/reset'
+import InvestDashboard from './components/InvestDashboard'
 
 function App() {
   const isLoggedIn=window.localStorage.getItem("loggedIn");
@@ -39,6 +40,7 @@ function App() {
               <Route path="/sign-in" element={<Login />} />
               <Route path="/sign-up" element={<SignUp />} />
               <Route path="/userDetails" element={<UserDetails/>}/>
+              <Route path="/InvestDashboard" element={<InvestDashboard/>}/>
               <Route path="/reset" element={<Reset/>}/>
             </Routes>
           </div>
