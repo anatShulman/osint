@@ -1,6 +1,21 @@
 import csv
 from pymongo import MongoClient
 
+def check_connection():
+    # Attempt to connect to the MongoDB instance
+    try:
+        client = MongoClient("mongodb+srv://anatshulman:2HBYgG53On6MzWu4@cluster0.i84nq3q.mongodb.net/?retryWrites=true&w=majority")
+        # Access the list_database_names() method to force the client to connect
+        client.list_database_names()
+        db = client['Cluster0']
+        collection = db['CSV']
+        return True
+    # If there is an error connecting, return False
+    except:
+        return False
+
+
+
 def upload(CSV_name):
     # Connect to the MongoDB instance
     client = MongoClient("mongodb+srv://anatshulman:2HBYgG53On6MzWu4@cluster0.i84nq3q.mongodb.net/?retryWrites=true&w=majority")

@@ -3,7 +3,11 @@ import subprocess
 import csv
 from CSV_to_MongoDB import *
 
-def netstat():
+import tkinter as tk
+import subprocess
+from tkinter import filedialog
+
+def netstat(parent, x, y, Label):
     # Run the netstat command to get a list of all active connections
     output = subprocess.check_output('netstat -ano', shell=True)
 
@@ -42,5 +46,9 @@ def netstat():
             except (psutil.NoSuchProcess, psutil.AccessDenied, ValueError):
                 pass
             writer.writerow(d)
-        
-    upload(os.getcwd()+'\netstat.csv')
+    y.configure(text="status : Done!")
+    parent.update()
+    x.configure(text="scanning : None")
+    parent.update()
+
+    # upload(os.getcwd()+'\netstat.csv')
