@@ -2,3 +2,4 @@ node_modules
 exe/process_hashes.csv
 __pycache__
 *.csv
+sandbox.py

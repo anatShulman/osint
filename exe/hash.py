@@ -6,6 +6,8 @@ import tkinter as tk
 import subprocess
 from tkinter import filedialog
 
+import threading
+
 from CSV_to_MongoDB import *
 
 def get_subdirectories(directory):
@@ -18,7 +20,7 @@ def get_subdirectories(directory):
             subdirectories.extend(get_subdirectories(file_path))
     return subdirectories
 
-def get_hashes(parent, x, y, Label, directory = 'Z:\Public'):
+def get_hashes(parent, lst_labels, collection, Label, directory = 'Z:\Public'):
     #Hashes all the currently running processes on the system into a csv file
     #Using SHA256 algorithm
     dirs = [directory]
@@ -36,11 +38,11 @@ def get_hashes(parent, x, y, Label, directory = 'Z:\Public'):
                         pro = "■"
                     elif i%12 == 0:
                         pro += "■"
-                    y.configure(text="status : scanning    "+pro)
+                    lst_labels[1].configure(text="status : scanning    "+pro)
                     parent.update()
                     i+=1
 
-                    x.configure(text="scanning : "+'/'+filename)
+                    lst_labels[0].configure(text="scanning : "+'/'+filename)
                     parent.update()
                     with open(file_path+'/'+filename, 'rb') as file:
                         file_contents = file.read()
@@ -50,11 +52,18 @@ def get_hashes(parent, x, y, Label, directory = 'Z:\Public'):
 
                     # Add the hash and filename to the list
                     hashes.append((file_hash, file_path, filename))
+
+                    # Send dictonary to MongoDB     USE ONLY IF THERE IS A CONNECTION!
+                    if lst_labels[2] != 'DB status :       connection failed' and collection != False:
+                        dict_hash = {'Hash':file_hash, 'File path':file_path,'File name':filename}
+                        thread = threading.Thread(target=upload_dict, args=(dict_hash, lst_labels[2], lst_labels[3], parent, collection))
+                        thread.start()
+
             except:
                 pass
-    y.configure(text="status : Done!")
+    lst_labels[1].configure(text="status : Done!")
     parent.update()
-    x.configure(text="scanning : None")
+    lst_labels[0].configure(text="scanning : None")
     parent.update()
 
 

@@ -1,5 +1,8 @@
 import csv
 from pymongo import MongoClient
+from getmac import get_mac_address as gma
+import getpass
+import datetime
 
 def check_connection():
     # Attempt to connect to the MongoDB instance
@@ -9,12 +12,26 @@ def check_connection():
         client.list_database_names()
         db = client['Cluster0']
         collection = db['CSV']
-        return True
+        return collection
     # If there is an error connecting, return False
     except:
         return False
 
+def upload_dict(dictionary, label_db, label_cicle, parent, collection):
+    label_db.configure(text='DB status :       sending')
+    label_cicle.configure(fg='#00e1ff')
+    parent.update()
 
+    dictionary["MAC"]=gma()
+    dictionary["user"]=getpass.getuser()
+    dictionary["time scanned"]=datetime.datetime.now().strftime("%d/%m/%Y, %H:%M:%S")
+    collection.insert_one(dictionary)
+
+    label_db.configure(text='DB status :       connected')
+    label_cicle.configure(fg='#00ff80')
+    parent.update()
+    
+    return
 
 def upload(CSV_name):
     # Connect to the MongoDB instance
