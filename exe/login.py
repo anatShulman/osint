@@ -2,6 +2,10 @@ import tkinter as tk
 from GUI import GUI
 import time
 
+from pymongo import MongoClient
+import bcrypt
+from bson.objectid import ObjectId
+
 class Login(tk.Tk):
     def __init__(self):
         super().__init__()
@@ -47,23 +51,33 @@ class Login(tk.Tk):
         self.login_button = tk.Button(self, text="Sign in", command=self.signin, **button_style)
         self.login_button.grid(row=4, column=0, columnspan=2, pady=2)
 
+        # Connect to your MongoDB database here
+        self.client = MongoClient("mongodb+srv://anatshulman:2HBYgG53On6MzWu4@cluster0.i84nq3q.mongodb.net/?retryWrites=true&w=majority")
+        self.db = self.client['test']
+
     def signin(self):
         # Check if the username and password are correct
         # If correct, destroy the login form and show the GUI form
+        self.credentials_label.configure(text="")
+        self.update()
 
-        
-
-        if self.username_entry.get() == 'username' and self.password_entry.get() == 'password':
-            self.destroy()
-            gui = GUI()
-            gui.geometry(self.geometry())
-            gui.mainloop()
-        else:
-            # self.credentials_label.configure(text="")
-            # self.update()
-            # time.sleep(0.5)
-            self.credentials_label.configure(text="wrong credentials. please try again")
+        users = self.db['UserInfo']
+        user = users.find_one({'email': self.username_entry.get()})
+        if user is None:
+            self.credentials_label.configure(text="User not found. Please try again")
             self.update()
+            return
+
+        if not bcrypt.checkpw(self.password_entry.get().encode('utf-8'), user['password'].encode('utf-8')):
+            self.credentials_label.configure(text="Invalid password. Please try again")
+            self.update()
+            return
+
+        self.usern = self.username_entry.get()
+        self.destroy()
+        gui = GUI(username=self.usern)
+        gui.geometry(self.geometry())
+        gui.mainloop()
 
 
 # Create an instance of the login form and run the main loop

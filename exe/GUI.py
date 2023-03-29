@@ -14,10 +14,12 @@ from sockests import netstat
 from pymongo import *
 
 class GUI(tk.Tk):
-    def __init__(self):
+    def __init__(self, username):
         super().__init__()
         # Define the directory of the scripts
         scripts_directory = os.getcwd()
+        
+        self.username=username
 
         def run_script(script_path):
             subprocess.run(['python', script_path], cwd=scripts_directory)
@@ -124,7 +126,7 @@ class GUI(tk.Tk):
         t.start()
 
     def button6_callback(self):
-        if self.var1.get() == True:
+        if self.var1.get() == True:   
             self.status_label.configure(text="status : pending")
             self.update()
             get_hashes(self, [self.scannig_label, self.status_label, self.db_label, self.circle_label], collection, tk.Label, working_directory)

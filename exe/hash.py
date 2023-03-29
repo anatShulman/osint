@@ -6,6 +6,10 @@ import tkinter as tk
 import subprocess
 from tkinter import filedialog
 
+from getmac import get_mac_address as gma
+import getpass
+import datetime
+
 import threading
 
 from CSV_to_MongoDB import *
@@ -29,6 +33,11 @@ def get_hashes(parent, lst_labels, collection, Label, directory = 'Z:\Public'):
     i = 0
 
     hashes = []
+
+    # Additional data
+    MAC_address = gma()
+    user = getpass.getuser()
+
     for file_path in dirs:
         for filename in os.listdir(file_path):
             try:
@@ -51,11 +60,12 @@ def get_hashes(parent, lst_labels, collection, Label, directory = 'Z:\Public'):
                     file_hash = hashlib.sha256(file_contents).hexdigest()
 
                     # Add the hash and filename to the list
-                    hashes.append((file_hash, file_path, filename))
-
+                    time_now = datetime.datetime.now().strftime("%d/%m/%Y, %H:%M:%S")
+                    hashes.append((file_hash, file_path, filename, parent.username, MAC_address, user, time_now))
+                    
                     # Send dictonary to MongoDB     USE ONLY IF THERE IS A CONNECTION!
                     if lst_labels[2] != 'DB status :       connection failed' and collection != False:
-                        dict_hash = {'Hash':file_hash, 'File path':file_path,'File name':filename}
+                        dict_hash = {'Hash':file_hash, 'File path':file_path, 'File name':filename, 'email':parent.username, 'MAC':MAC_address, 'user':user, 'time scanned':time_now}
                         thread = threading.Thread(target=upload_dict, args=(dict_hash, lst_labels[2], lst_labels[3], parent, collection))
                         thread.start()
 
@@ -66,11 +76,10 @@ def get_hashes(parent, lst_labels, collection, Label, directory = 'Z:\Public'):
     lst_labels[0].configure(text="scanning : None")
     parent.update()
 
-
     # Open a CSV file for writing
     with open('hashes.csv', 'w', newline='') as csv_file:
         writer = csv.writer(csv_file)
-        writer.writerow(['Hash', 'File path','File name'])
+        writer.writerow(['Hash', 'File path','File name', 'Email', 'MAC', 'user', 'time'])
         for hash_tuple in hashes:
             writer.writerow(hash_tuple)
 

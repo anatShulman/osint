@@ -1,8 +1,5 @@
 import csv
 from pymongo import MongoClient
-from getmac import get_mac_address as gma
-import getpass
-import datetime
 
 def check_connection():
     # Attempt to connect to the MongoDB instance
@@ -22,9 +19,6 @@ def upload_dict(dictionary, label_db, label_cicle, parent, collection):
     label_cicle.configure(fg='#00e1ff')
     parent.update()
 
-    dictionary["MAC"]=gma()
-    dictionary["user"]=getpass.getuser()
-    dictionary["time scanned"]=datetime.datetime.now().strftime("%d/%m/%Y, %H:%M:%S")
     collection.insert_one(dictionary)
 
     label_db.configure(text='DB status :       connected')
