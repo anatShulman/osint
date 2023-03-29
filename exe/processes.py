@@ -11,6 +11,8 @@ import tkinter as tk
 import subprocess
 from tkinter import filedialog
 
+import threading
+
 def processes_hash(parent, lst_labels, collection, Label):
     # Create a list to store the process information
     process_list = []
@@ -23,7 +25,6 @@ def processes_hash(parent, lst_labels, collection, Label):
 
     # Iterate over all running processes
     for proc in psutil.process_iter(['name', 'exe', 'pid']):
-
         # Calculate the SHA256 hash of the process executable file
         try:
             exe_path = proc.info['exe']

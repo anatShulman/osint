@@ -11,6 +11,8 @@ import tkinter as tk
 import subprocess
 from tkinter import filedialog
 
+import threading
+
 def get_hash(file_path):
     with open(file_path, 'rb') as f:
         return hashlib.sha256(f.read()).hexdigest()
