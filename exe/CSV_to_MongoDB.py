@@ -14,15 +14,14 @@ def check_connection():
     except:
         return False
 
-def upload_dict(dictionary, label_db, label_cicle, parent, collection):
+def upload_dict(dictionary, label_db, label_cirle, parent, collection):
     label_db.configure(text='DB status :       sending')
-    label_cicle.configure(fg='#00e1ff')
+    label_cirle.configure(fg='#00e1ff')
     parent.update()
 
     collection.insert_one(dictionary)
 
-    label_db.configure(text='DB status :       connected')
-    label_cicle.configure(fg='#00ff80')
+    label_cirle.configure(fg='#00ff80')
     parent.update()
     
     return

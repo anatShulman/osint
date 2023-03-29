@@ -13,7 +13,7 @@ class Login(tk.Tk):
         self.title("Login Form")
 
         # Define button styles
-        button_style = {'font': ('Arial', 14), 'fg': 'white', 'bg': '#007bff', 'activebackground': '#0062cc', 'padx': 60, 'pady': 0, 'bd': 0}
+        button_style = {'font': ('Arial', 14), 'fg': 'white', 'bg': '#759bc2', 'activebackground': '#323d5e', 'padx': 60, 'pady': 0, 'bd': 0}
 
         # Define label styles
         label_style = {'font': ('Arial', 14), 'fg': 'black', 'bg': '#f5f5f5', 'padx': 0, 'pady': 10}

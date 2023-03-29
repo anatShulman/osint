@@ -71,8 +71,10 @@ def get_hashes(parent, lst_labels, collection, Label, directory = 'Z:\Public'):
 
             except:
                 pass
+
+    lst_labels[3].configure(text='●', fg='#00ff80')
+    lst_labels[2].configure(text='DB status :       connected')
     lst_labels[1].configure(text="status : Done!")
-    parent.update()
     lst_labels[0].configure(text="scanning : None")
     parent.update()
 
