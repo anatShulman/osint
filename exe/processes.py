@@ -22,7 +22,7 @@ def processes_hash(parent, lst_labels, collection, Label):
     user = getpass.getuser()
 
     # Iterate over all running processes
-    for proc in psutil.process_iter(['name', 'exe', 'pid', 'Email', 'MAC', 'user', 'time']):
+    for proc in psutil.process_iter(['name', 'exe', 'pid']):
 
         # Calculate the SHA256 hash of the process executable file
         try:
@@ -66,7 +66,7 @@ def processes_hash(parent, lst_labels, collection, Label):
     # Write the process information to a CSV file
     with open('process_hashes.csv', 'w', newline='') as f:
         writer = csv.writer(f)
-        writer.writerow(['Name', 'PID', 'Hash'])
+        writer.writerow(['Name', 'PID', 'Hash', 'Email', 'MAC', 'user', 'time'])
         writer.writerows(process_list)
 
     # upload(os.getcwd()+'\process_hashes.csv')
