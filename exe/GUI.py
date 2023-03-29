@@ -134,12 +134,12 @@ class GUI(tk.Tk):
         if self.var2.get() == True:
             self.status_label.configure(text="status : pending")
             self.update()
-            processes_hash(parent=self, x = self.scannig_label, y = self.status_label, Label=tk.Label)
+            processes_hash(self, [self.scannig_label, self.status_label, self.db_label, self.circle_label], collection, tk.Label)
         
         if self.var3.get() == True:
             self.status_label.configure(text="status : pending")
             self.update()
-            services_hash(parent=self, x = self.scannig_label, y = self.status_label, Label=tk.Label)
+            services_hash(self, [self.scannig_label, self.status_label, self.db_label, self.circle_label], collection, tk.Label)
         
         if self.var4.get() == True:
             self.status_label.configure(text="status : pending")

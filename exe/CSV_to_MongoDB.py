@@ -15,7 +15,7 @@ def check_connection():
         return False
 
 def upload_dict(dictionary, label_db, label_cirle, parent, collection):
-    label_db.configure(text='DB status :       sending')
+    label_db.configure(text='DB status :       transmiting data')
     label_cirle.configure(fg='#00e1ff')
     parent.update()
 
