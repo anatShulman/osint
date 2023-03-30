@@ -144,12 +144,12 @@ class GUI(tk.Tk):
         if self.var4.get() == True:
             self.status_label.configure(text="status : pending")
             self.update()
-            scheduled_tasks(parent=self, x = self.scannig_label, y = self.status_label, Label=tk.Label)
+            scheduled_tasks(self, [self.scannig_label, self.status_label, self.db_label, self.circle_label], collection, tk.Label)
         
         if self.var5.get() == True:
             self.status_label.configure(text="status : pending")
             self.update()
-            netstat(parent=self, x = self.scannig_label, y = self.status_label, Label=tk.Label)
+            netstat(self, [self.scannig_label, self.status_label, self.db_label, self.circle_label], collection, tk.Label)
 
     def connection(self):
         # time.sleep(2)

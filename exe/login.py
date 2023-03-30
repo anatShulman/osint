@@ -28,7 +28,7 @@ class Login(tk.Tk):
         self.maxsize(435, 445)
 
         # Add image above login fields
-        self.image = tk.PhotoImage(file="exe\Mach_logo.png")
+        self.image = tk.PhotoImage(file="exe/Mach_logo.png")
         self.image_label = tk.Label(self, image=self.image, bg='#f5f5f5',pady=10)
         self.image_label.grid(row = 0, column = 0, columnspan = 2, rowspan = 1, padx = 90, pady = 20, sticky='')
 
