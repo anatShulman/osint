@@ -39,12 +39,12 @@ class Login(tk.Tk):
         # Add login fields
         self.username_label = tk.Label(self, text="User's Email :", **label_style)
         self.username_label.grid(row=1, column=0, columnspan=1, padx = 15,pady=0, sticky='E')
-        self.username_entry = tk.Entry(self, font=('Courier New', 14))
+        self.username_entry = tk.Entry(self, font=('Courier New', 14), fg="#939496")
         self.username_entry.grid(row=1, column=1, columnspan=1, pady=0, sticky='W')
 
         self.password_label = tk.Label(self, text="Password :", **label_style1)
         self.password_label.grid(row=2, column=0, columnspan=1, padx = 15, pady=0, sticky='E')
-        self.password_entry = tk.Entry(self, show="*", font=('Courier New', 14))
+        self.password_entry = tk.Entry(self, show="*", font=('Courier New', 14), fg="#939496")
         self.password_entry.grid(row=2, column=1, columnspan=1, pady=0, sticky='W')
 
         # Credentials label
