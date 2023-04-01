@@ -34,18 +34,19 @@ function App() {
         </nav>
 
         <div className="auth-wrapper">
-          <div className="auth-inner">
+       
             <Routes>
               <Route exact path="/" element={isLoggedIn =="true" ?<UserDetails/>:<Login />} />
-              <Route path="/sign-in" element={<Login />} />
-              <Route path="/sign-up" element={<SignUp />} />
+                <Route path="/sign-in" element={<Login />} />
+                <Route path="/sign-up" element={<SignUp />} />
               <Route path="/userDetails" element={<UserDetails/>}/>
               <Route path="/InvestDashboard" element={<InvestDashboard/>}/>
-              <Route path="/reset" element={<Reset/>}/>
+                <Route path="/reset" element={<Reset/>}/>
+           
             </Routes>
           </div>
         </div>
-      </div>
+
     </Router>
   )
 }

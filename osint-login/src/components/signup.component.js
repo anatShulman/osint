@@ -46,7 +46,7 @@ export default function SignUp() {
 
   return (
     <div className="auth-wrapper">
-      
+       <div className="auth-inner">
         <form onSubmit={handleSubmit}>
           <h3>Sign Up</h3>
           <div>
@@ -127,6 +127,7 @@ export default function SignUp() {
             Already registered <a href="/sign-in">sign in?</a>
           </p>
         </form>
+      </div>
       </div>
 
   );
