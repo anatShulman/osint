@@ -3,3 +3,5 @@ exe/process_hashes.csv
 __pycache__
 *.csv
 sandbox.py
+BE/package-lock.json
+osint-login/package-lock.json
