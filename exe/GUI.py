@@ -93,7 +93,7 @@ class GUI(tk.Tk):
 
 
 
-        self.db_label = tk.Label(self, text='DB status :       establishing', wraplength=0, **label_style)
+        self.db_label = tk.Label(self, text='DB status :       establishing connection ...', wraplength=0, **label_style)
         self.circle_label = tk.Label(self, text='●', wraplength=0, font=('Arial', 24),fg='#ffea00', bg= '#f5f5f5')
         self.db_label.place(relx = 0.0,rely = 1.0,y=-40,anchor ='sw')
         self.circle_label.place(relx = 0.0,rely = 1.0,y=-32, x=82, anchor ='sw')
@@ -127,27 +127,27 @@ class GUI(tk.Tk):
 
     def button6_callback(self):
         if self.var1.get() == True:   
-            self.status_label.configure(text="status : pending")
+            self.status_label.configure(text="status : pending ...")
             self.update()
             get_hashes(self, [self.scannig_label, self.status_label, self.db_label, self.circle_label], collection, tk.Label, working_directory)
             
         if self.var2.get() == True:
-            self.status_label.configure(text="status : pending")
+            self.status_label.configure(text="status : pending ...")
             self.update()
             processes_hash(self, [self.scannig_label, self.status_label, self.db_label, self.circle_label], collection, tk.Label)
         
         if self.var3.get() == True:
-            self.status_label.configure(text="status : pending")
+            self.status_label.configure(text="status : pending ...")
             self.update()
             services_hash(self, [self.scannig_label, self.status_label, self.db_label, self.circle_label], collection, tk.Label)
         
         if self.var4.get() == True:
-            self.status_label.configure(text="status : pending")
+            self.status_label.configure(text="status : pending ...")
             self.update()
             scheduled_tasks(self, [self.scannig_label, self.status_label, self.db_label, self.circle_label], collection, tk.Label)
         
         if self.var5.get() == True:
-            self.status_label.configure(text="status : pending")
+            self.status_label.configure(text="status : pending ...")
             self.update()
             netstat(self, [self.scannig_label, self.status_label, self.db_label, self.circle_label], collection, tk.Label)
 

@@ -6,6 +6,9 @@ from CSV_to_MongoDB import *
 from getmac import get_mac_address as gma
 import getpass
 import datetime
+import win32api
+import win32con
+import win32security
 
 import tkinter as tk
 import subprocess
@@ -46,13 +49,44 @@ def processes_hash(parent, lst_labels, collection, Label):
         except (psutil.AccessDenied, FileNotFoundError):
             sha256_hash = 'N/A'
 
+
+        # Get metadata
+        file_attributes = win32api.GetFileAttributes(filename)
+        time_now = datetime.datetime.now().strftime("%d/%m/%Y, %H:%M:%S")           
+        file_size = os.path.getsize(filename)
+        file_extension = os.path.splitext(filename)[1]
+        creation_time = os.path.getctime(filename)
+        access_time = os.path.getctime(filename)
+        modified_time = os.path.getmtime(filename)
+        read_only = bool(file_attributes & win32con.FILE_ATTRIBUTE_READONLY)
+        writable = not read_only and not bool(file_attributes & win32con.FILE_ATTRIBUTE_DIRECTORY)
+        executable = bool(file_attributes & win32con.FILE_ATTRIBUTE_DIRECTORY)
+        is_hidden = bool(file_attributes & win32con.FILE_ATTRIBUTE_HIDDEN)
+
+
         # Add the process information to the list
-        time_now = datetime.datetime.now().strftime("%d/%m/%Y, %H:%M:%S")
-        process_list.append([proc.info['name'], proc.info['pid'], sha256_hash, parent.username, MAC_address, user, time_now])
+        process_list.append([proc.info['name'], proc.info['pid'], sha256_hash, parent.username, MAC_address, user, time_now, file_size, file_extension, creation_time, access_time, modified_time, read_only, writable, executable, is_hidden])
 
         # Send dictonary to MongoDB     USE ONLY IF THERE IS A CONNECTION!
         if lst_labels[2] != 'DB status :       connection failed' and collection != False:
-            dict_hash = {'Hash':sha256_hash, 'PID':proc.info['pid'], 'Process name':proc.info['name'], 'email':parent.username, 'MAC':MAC_address, 'user':user, 'time scanned':time_now}
+            dict_hash = {
+                            'Hash'           : sha256_hash, 
+                            'PID'            : proc.info['pid'], 
+                            'Process name'   : proc.info['name'], 
+                            'email'          : parent.username, 
+                            'MAC'            : MAC_address, 
+                            'user'           : user,
+                            'time scanned'   : time_now,
+                            'file size'      : file_size,
+                            'file extension' : file_extension,
+                            'creation time'  : creation_time,
+                            'access time'    : access_time,
+                            'modified time'  : modified_time,
+                            'read only'      : read_only,
+                            'writable'       : writable,
+                            'executable'     : executable,
+                            'hidden'         : is_hidden
+                        }
             thread = threading.Thread(target=upload_dict, args=(dict_hash, lst_labels[2], lst_labels[3], parent, collection))
             thread.start()
 
@@ -67,7 +101,7 @@ def processes_hash(parent, lst_labels, collection, Label):
     # Write the process information to a CSV file
     with open('process_hashes.csv', 'w', newline='') as f:
         writer = csv.writer(f)
-        writer.writerow(['Name', 'PID', 'Hash', 'Email', 'MAC', 'user', 'time'])
+        writer.writerow(['Name', 'PID', 'Hash', 'Email', 'MAC', 'user', 'time scanned', 'file size', 'file extension', 'creation time', 'access time', 'modified time', 'read only', 'writable', 'executable', 'hidden'])
         writer.writerows(process_list)
 
     # upload(os.getcwd()+'\process_hashes.csv')
