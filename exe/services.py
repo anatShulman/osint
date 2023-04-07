@@ -6,6 +6,9 @@ from CSV_to_MongoDB import *
 from getmac import get_mac_address as gma
 import getpass
 import datetime
+import win32api
+import win32con
+import win32security
 
 import tkinter as tk
 import subprocess
@@ -46,7 +49,20 @@ def services_hash(parent, lst_labels, collection, Label):
                 parent.update()
 
                 hash_value = get_hash(binpath)
-                time_now = datetime.datetime.now().strftime("%d/%m/%Y, %H:%M:%S")
+
+                # Get metadata
+                file_attributes = win32api.GetFileAttributes(filename)
+                time_now = datetime.datetime.now().strftime("%d/%m/%Y, %H:%M:%S")           
+                file_size = os.path.getsize(filename)
+                file_extension = os.path.splitext(filename)[1]
+                creation_time = os.path.getctime(filename)
+                access_time = os.path.getctime(filename)
+                modified_time = os.path.getmtime(filename)
+                read_only = bool(file_attributes & win32con.FILE_ATTRIBUTE_READONLY)
+                writable = not read_only and not bool(file_attributes & win32con.FILE_ATTRIBUTE_DIRECTORY)
+                executable = bool(file_attributes & win32con.FILE_ATTRIBUTE_DIRECTORY)
+                is_hidden = bool(file_attributes & win32con.FILE_ATTRIBUTE_HIDDEN)
+
                 writer.writerow([service.name(), binpath, hash_value, parent.username, MAC_address, user, time_now])
 
                 # Send dictonary to MongoDB     USE ONLY IF THERE IS A CONNECTION!
