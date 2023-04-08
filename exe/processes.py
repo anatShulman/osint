@@ -51,7 +51,7 @@ def processes_hash(parent, lst_labels, collection, Label):
             else:
                 continue
         except (psutil.AccessDenied, FileNotFoundError):
-            continue;
+            continue
 
 
         # Calculate the hashes of the file contents
@@ -64,6 +64,7 @@ def processes_hash(parent, lst_labels, collection, Label):
         file_attributes = win32api.GetFileAttributes(exe_path)
         magic_obj = magic.Magic()
         file_type = magic_obj.from_file(exe_path)
+        file_path = os.path.dirname(exe_path).replace("\\", "/" )
         time_now = datetime.datetime.now() 
         time_scanned = time_now.strftime("%d/%m/%Y, %H:%M:%S")   
         file_size = os.path.getsize(exe_path)
@@ -80,7 +81,7 @@ def processes_hash(parent, lst_labels, collection, Label):
 
 
         # Add the process information to the list
-        process_list.append([proc.info['name'], proc.info['pid'], sha256_hash, ssdeep, tlsh, parent.username, MAC_address, user, time_now, file_size, file_extension, creation_time, access_time, modified_time, read_only, writable, executable, is_hidden])
+        process_list.append([proc.info['name'], proc.info['pid'], sha256_hash, ssdeep, tlsh, file_path, parent.username, MAC_address, user, time_now, file_size, file_extension, creation_time, access_time, modified_time, read_only, writable, executable, is_hidden])
 
         # Send dictonary to MongoDB     USE ONLY IF THERE IS A CONNECTION!
         if lst_labels[2] != 'DB status :       connection failed' and collection != False:
@@ -88,6 +89,7 @@ def processes_hash(parent, lst_labels, collection, Label):
                 'sha256'         : sha256_hash,
                 'ssdeep'         : ssdeep,
                 'tlsh'           : tlsh,
+                'file path'      : file_path,
                 'PID'            : proc.info['pid'],
                 'file name'      : proc.info['name'],
                 'file type'      : file_type,
@@ -121,7 +123,7 @@ def processes_hash(parent, lst_labels, collection, Label):
     # Write the process information to a CSV file
     with open('process_hashes.csv', 'w', newline='') as f:
         writer = csv.writer(f)
-        writer.writerow(['Name', 'PID', 'SHA-256', 'SSDEEP', 'TLSH', 'Email', 'MAC', 'user', 'time scanned', 'file size', 'file extension', 'creation time', 'access time', 'modified time', 'read only', 'writable', 'executable', 'hidden'])
+        writer.writerow(['Name', 'PID', 'SHA-256', 'SSDEEP', 'TLSH', 'File path', 'Email', 'MAC', 'user', 'time scanned', 'file size', 'file extension', 'creation time', 'access time', 'modified time', 'read only', 'writable', 'executable', 'hidden'])
         writer.writerows(process_list)
 
     # upload(os.getcwd()+'\process_hashes.csv')
