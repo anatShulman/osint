@@ -71,7 +71,7 @@ class GUI(tk.Tk):
         self.check1 = tk.Checkbutton(self, text="Hashing all files (in currnet directory)", variable=self.var1, **label_style)
         self.check2 = tk.Checkbutton(self, text="Hashing running processes", variable=self.var2, **label_style)
         self.check3 = tk.Checkbutton(self, text="Hashing running services", variable=self.var3, **label_style)
-        self.check4 = tk.Checkbutton(self, text="Get scheduoed tasks", variable=self.var4, **label_style)
+        self.check4 = tk.Checkbutton(self, text="Get scheduled tasks", variable=self.var4, **label_style)
         self.check5 = tk.Checkbutton(self, text="Get all network connections", variable=self.var5, **label_style)
 
         # layout the checkboxes using grid
