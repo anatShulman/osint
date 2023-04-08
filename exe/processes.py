@@ -72,9 +72,11 @@ def processes_hash(parent, lst_labels, collection, Label):
         access_time = os.path.getctime(exe_path)
         modified_time = os.path.getmtime(exe_path)
         read_only = bool(file_attributes & win32con.FILE_ATTRIBUTE_READONLY)
+        readable = bool(file_attributes & win32con.GENERIC_READ)
         writable = not read_only and not bool(file_attributes & win32con.FILE_ATTRIBUTE_DIRECTORY)
         executable = bool(file_attributes & win32con.FILE_ATTRIBUTE_DIRECTORY)
         is_hidden = bool(file_attributes & win32con.FILE_ATTRIBUTE_HIDDEN)
+
 
 
         # Add the process information to the list
