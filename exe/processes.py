@@ -14,7 +14,6 @@ import magic
 import tkinter as tk
 import subprocess
 from tkinter import filedialog
-from pathlib import Path
 
 import threading
 
@@ -36,7 +35,7 @@ def processes_hash(parent, lst_labels, collection, Label):
         # Calculate the SHA256 hash of the process executable file
         try:
             exe_path = proc.info['exe']
-            if isinstance(exe_path, str) and Path(exe_path).is_absolute():          
+            if isinstance(exe_path, str) and ('/' in exe_path or '\\' in exe_path):          
                 if i%300 == 0:
                     pro = "■"
                 elif i%12 == 0:

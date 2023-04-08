@@ -8,6 +8,7 @@ import base64
 import win32api
 import win32con
 from encoded import ssdeep_string
+import sys
 
 # scripts we've written
 from hash import *
@@ -35,10 +36,19 @@ class GUI(tk.Tk):
                 working_directory = directory_path
                 self.directory_label.config(text=working_directory)
 
+        def restart_program():
+            python = sys.executable
+            os.execl(python, python, *sys.argv)
+
+        def stop_and_restart():
+            self.destroy()
+            restart_program()
+
         self.title('Risks\' agent')
 
         # Define button styles
         button_style = {'font': ('Arial', 14), 'fg': 'white', 'bg': '#007bff', 'activebackground': '#0062cc', 'padx': 20, 'pady': 10, 'bd': 0}
+        stop_button_style = {'font': ('Arial', 15), 'fg': 'dark red', 'bg': 'red', 'activebackground': '#323d5e', 'padx': 0, 'pady': 0, 'bd': 0}
 
         # Define label styles
         label_style = {'font': ('Arial', 12), 'fg': 'black', 'bg': '#f5f5f5', 'padx': 0, 'pady': 0}
@@ -86,10 +96,11 @@ class GUI(tk.Tk):
 
         # Create the buttons
         self.button6 = tk.Button(self, text='Activate scan', command=self.run_button6_callback, **button_style)
-
+        self.restart_button = tk.Button(self, text="∎∎", command=stop_and_restart, **stop_button_style)
         # Add the buttons to the GUI
 
         self.button6.grid(row=8, column=1, padx=0, pady=20)
+        self.restart_button.grid(row=8, column=0, padx=0, pady=0)
 
         # Labels
         # db_label = tk.Label(self, text='DB status : establishing', wraplength=0, **label_style)
