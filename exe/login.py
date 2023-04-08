@@ -1,6 +1,6 @@
 import tkinter as tk
 from GUI import GUI
-from logo import logo_string
+from encoded import logo_string
 import time
 import base64
 

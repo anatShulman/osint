@@ -17,6 +17,7 @@ import magic
 import threading
 
 from CSV_to_MongoDB import *
+from similarity import *
 
 def get_subdirectories(directory):
     #Traverse recursively through a given path and creates a list representing the file-tree from that path.
@@ -61,8 +62,10 @@ def get_hashes(parent, lst_labels, collection, Label, directory = 'Z:\Public'):
                     with open(file_path+'/'+filename, 'rb') as file:
                         file_contents = file.read()
 
-                    # Calculate the hash of the file contents
+                    # Calculate the hashes of the file contents
                     file_hash = hashlib.sha256(file_contents).hexdigest()
+                    ssdeep = compute_ssdeep(file_path+'/'+filename)
+                    tlsh = compute_tlsh(file_path+'/'+filename)
 
                     # Get metadata
                     file_attributes = win32api.GetFileAttributes(file_path+'/'+filename)
@@ -71,7 +74,7 @@ def get_hashes(parent, lst_labels, collection, Label, directory = 'Z:\Public'):
                     time_now = datetime.datetime.now() 
                     time_scanned = time_now.strftime("%d/%m/%Y, %H:%M:%S")    
                     file_size = os.path.getsize(file_path+'/'+filename)
-                    file_extension = os.path.splitext(file_path+'/'+filename)[1]
+                    file_extension = os.path.splitext(file_path+'/'+filename)[1].replace('.','')
                     creation_time = os.path.getctime(file_path+'/'+filename)
                     access_time = os.path.getctime(file_path+'/'+filename)
                     modified_time = os.path.getmtime(file_path+'/'+filename)
@@ -83,12 +86,14 @@ def get_hashes(parent, lst_labels, collection, Label, directory = 'Z:\Public'):
 
 
                     # Add the hash and filename to the list
-                    hashes.append((file_hash, file_path.replace("\\", "/" ), filename, file_type, parent.username, MAC_address, user, time_scanned, time_now, file_size, file_extension, creation_time, access_time, modified_time, read_only, readable, writable, executable, is_hidden))
+                    hashes.append((file_hash, ssdeep, tlsh, file_path.replace("\\", "/" ), filename, file_type, parent.username, MAC_address, user, time_scanned, time_now, file_size, file_extension, creation_time, access_time, modified_time, read_only, readable, writable, executable, is_hidden))
                     
                     # Send dictonary to MongoDB     USE ONLY IF THERE IS A CONNECTION!
                     if lst_labels[2] != 'DB status :       connection failed' and collection != False:
                         dict_hash = {
-                            'hash'           : file_hash,
+                            'sha256'         : file_hash,
+                            'ssdeep'         : ssdeep,
+                            'tlsh'           : tlsh,
                             'file path'      : file_path,
                             'file name'      : filename,
                             'file type'      : file_type,
@@ -124,7 +129,7 @@ def get_hashes(parent, lst_labels, collection, Label, directory = 'Z:\Public'):
     # Open a CSV file for writing
     with open('hashes.csv', 'w', newline='') as csv_file:
         writer = csv.writer(csv_file)
-        writer.writerow(['Hash', 'File path','File name', 'File type', 'Email', 'MAC', 'user', 'time scanned', 'scanned time', 'file size', 'file extension', 'creation time', 'access time', 'modified time', 'read only', 'readable', 'writable', 'executable', 'hidden'])
+        writer.writerow(['Sha256', 'ssdeep', 'tlsh', 'File path','File name', 'File type', 'Email', 'MAC', 'user', 'time scanned', 'scanned time', 'file size', 'file extension', 'creation time', 'access time', 'modified time', 'read only', 'readable', 'writable', 'executable', 'hidden'])
         for hash_tuple in hashes:
             writer.writerow(hash_tuple)
 

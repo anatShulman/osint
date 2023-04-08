@@ -2,5 +2,7 @@ node_modules
 __pycache__
 *.csv
 sandbox.py
+sandbox2.py
 BE/package-lock.json
 osint-login/package-lock.json
+ssdeep.exe
