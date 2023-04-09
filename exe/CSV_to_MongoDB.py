@@ -18,8 +18,6 @@ def check_connection():
 def upload_dict(dictionary, label_db, label_cirle, parent, collection):
     
     dictionary['ssdeep'] = compute_ssdeep(dictionary['file path']+'\\'+dictionary['file name'])
-    
-    label_db.configure(text='DB status :       transmiting data')
     label_cirle.configure(fg='#00e1ff')
     parent.update()
 

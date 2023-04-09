@@ -30,6 +30,10 @@ def processes_hash(parent, lst_labels, collection, Label):
     MAC_address = gma()
     user = getpass.getuser()
 
+    if lst_labels[2].cget("text") == 'DB status :       connected':
+        lst_labels[2].configure(text='DB status :       transmiting data')
+        parent.update()
+
     # Iterate over all running processes
     for proc in psutil.process_iter(['name', 'exe', 'pid']):
         # Calculate the SHA256 hash of the process executable file
@@ -112,7 +116,7 @@ def processes_hash(parent, lst_labels, collection, Label):
             thread.start()
 
 
-    if lst_labels[2] != 'DB status :       connection failed' and collection != False:
+    if lst_labels[2].cget("text") != 'DB status :       connection failed' and collection != False:
         lst_labels[3].configure(text='●', fg='#00ff80')
         lst_labels[2].configure(text='DB status :       connected')
     lst_labels[1].configure(text="status : Done!")

@@ -26,6 +26,10 @@ def scheduled_tasks(parent, lst_labels, collection, Label):
 
     # Use the csv module to create a writer object and write the output to a CSV file
 
+    if lst_labels[2].cget("text") == 'DB status :       connected':
+        lst_labels[2].configure(text='DB status :       transmiting data')
+        parent.update()
+
     with open('scheduled_tasks.csv', 'w', newline='') as csvfile:
         writer = csv.writer(csvfile)
         # Header
@@ -46,7 +50,7 @@ def scheduled_tasks(parent, lst_labels, collection, Label):
                     thread.start()
 
 
-    if lst_labels[2] != 'DB status :       connection failed' and collection != False:
+    if lst_labels[2].cget("text") != 'DB status :       connection failed' and collection != False:
         lst_labels[3].configure(text='●', fg='#00ff80')
         lst_labels[2].configure(text='DB status :       connected')
     lst_labels[1].configure(text="status : Done!")

@@ -43,6 +43,9 @@ def get_hashes(parent, lst_labels, collection, Label, directory = 'Z:\Public'):
     MAC_address = gma()
     user = getpass.getuser()
  
+    if lst_labels[2].cget("text") == 'DB status :       connected':
+        lst_labels[2].configure(text='DB status :       transmiting data')
+        parent.update()
 
     for file_path in dirs:
         for filename in os.listdir(file_path):
@@ -119,7 +122,7 @@ def get_hashes(parent, lst_labels, collection, Label, directory = 'Z:\Public'):
             except:
                 pass
     
-    if lst_labels[2] != 'DB status :       connection failed' and collection != False:
+    if lst_labels[2].cget("text") != 'DB status :       connection failed' and collection != False:
         lst_labels[3].configure(text='●', fg='#00ff80')
         lst_labels[2].configure(text='DB status :       connected')
     lst_labels[1].configure(text="status : Done!")

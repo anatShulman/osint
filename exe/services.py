@@ -33,6 +33,10 @@ def services_hash(parent, lst_labels, collection, Label):
     MAC_address = gma()
     user = getpass.getuser()
 
+    if lst_labels[2].cget("text") == 'DB status :       connected':
+        lst_labels[2].configure(text='DB status :       transmiting data')
+        parent.update()
+
     with open('services_hashes.csv', 'w', newline='') as f:
         writer = csv.writer(f)
         writer.writerow(['Service name', 'Executable path', 'SHA256 hash', 'TLSH', 'Email', 'MAC', 'user', 'time scanned', 'file size', 'file extension', 'creation time', 'access time', 'modified time', 'read only', 'writable', 'executable', 'hidden'])
@@ -108,7 +112,7 @@ def services_hash(parent, lst_labels, collection, Label):
             except Exception as e:
                 pass
 
-    if lst_labels[2] != 'DB status :       connection failed' and collection != False:
+    if lst_labels[2].cget("text") != 'DB status :       connection failed' and collection != False:
         lst_labels[3].configure(text='●', fg='#00ff80')
         lst_labels[2].configure(text='DB status :       connected')
     lst_labels[1].configure(text="status : Done!")
