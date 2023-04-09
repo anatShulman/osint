@@ -179,10 +179,10 @@ class GUI(tk.Tk):
             self.update()
             netstat(self, [self.scannig_label, self.status_label, self.db_label, self.circle_label], collection, tk.Label)
 
-        try:
-            os.remove("ssdeep.exe")
-        except:
-            pass
+        # try:
+        #     os.remove("ssdeep.exe")
+        # except:
+        #     pass
 
     def connection(self):
         # time.sleep(2)

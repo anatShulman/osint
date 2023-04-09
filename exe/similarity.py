@@ -11,7 +11,8 @@ def compute_tlsh(file_path):
 
 def compute_ssdeep(file_path):
     try:
-        ssdeep_output = subprocess.check_output(['ssdeep.exe', file_path.replace("/", "\\")])
+        # print(file_path)
+        ssdeep_output = subprocess.check_output(['ssdeep.exe', file_path.replace("/", "\\")], creationflags=subprocess.CREATE_NO_WINDOW)
         return ssdeep_output.decode().split("\n")[1].split(",")[0]
     except:
         try:
@@ -20,7 +21,7 @@ def compute_ssdeep(file_path):
             shutil.copy(file_path, temp_path)
             
             # compute ssdeep of the temporary copy
-            ssdeep_output = subprocess.check_output(['ssdeep.exe', temp_path.replace("/", "\\")])
+            ssdeep_output = subprocess.check_output(['ssdeep.exe', temp_path.replace("/", "\\")], creationflags=subprocess.CREATE_NO_WINDOW)
             ssdeep_hash = ssdeep_output.decode().split("\n")[1].split(",")[0]
                        
             # delete the temporary copy

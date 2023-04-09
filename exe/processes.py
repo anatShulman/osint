@@ -56,7 +56,7 @@ def processes_hash(parent, lst_labels, collection, Label):
         # Calculate the hashes of the file contents
         with open(exe_path, 'rb') as f:
             sha256_hash = hashlib.sha256(f.read()).hexdigest()
-        ssdeep = compute_ssdeep(exe_path)
+        # ssdeep = compute_ssdeep(exe_path)
         tlsh = compute_tlsh(exe_path)
 
         # Get metadata
@@ -80,13 +80,13 @@ def processes_hash(parent, lst_labels, collection, Label):
 
 
         # Add the process information to the list
-        process_list.append([proc.info['name'], proc.info['pid'], sha256_hash, ssdeep, tlsh, file_path, parent.username, MAC_address, user, time_now, file_size, file_extension, creation_time, access_time, modified_time, read_only, writable, executable, is_hidden])
+        process_list.append([proc.info['name'], proc.info['pid'], sha256_hash, tlsh, file_path, parent.username, MAC_address, user, time_now, file_size, file_extension, creation_time, access_time, modified_time, read_only, writable, executable, is_hidden])
 
         # Send dictonary to MongoDB     USE ONLY IF THERE IS A CONNECTION!
         if lst_labels[2] != 'DB status :       connection failed' and collection != False:
             dict_hash = {
                 'sha256'         : sha256_hash,
-                'ssdeep'         : ssdeep,
+                # 'ssdeep'         : ssdeep,
                 'tlsh'           : tlsh,
                 'file path'      : file_path,
                 'PID'            : proc.info['pid'],
@@ -122,7 +122,7 @@ def processes_hash(parent, lst_labels, collection, Label):
     # Write the process information to a CSV file
     with open('process_hashes.csv', 'w', newline='') as f:
         writer = csv.writer(f)
-        writer.writerow(['Name', 'PID', 'SHA-256', 'SSDEEP', 'TLSH', 'File path', 'Email', 'MAC', 'user', 'time scanned', 'file size', 'file extension', 'creation time', 'access time', 'modified time', 'read only', 'writable', 'executable', 'hidden'])
+        writer.writerow(['Name', 'PID', 'SHA-256', 'TLSH', 'File path', 'Email', 'MAC', 'user', 'time scanned', 'file size', 'file extension', 'creation time', 'access time', 'modified time', 'read only', 'writable', 'executable', 'hidden'])
         writer.writerows(process_list)
 
     # upload(os.getcwd()+'\process_hashes.csv')

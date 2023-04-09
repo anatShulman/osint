@@ -64,7 +64,7 @@ def get_hashes(parent, lst_labels, collection, Label, directory = 'Z:\Public'):
 
                     # Calculate the hashes of the file contents
                     file_hash = hashlib.sha256(file_contents).hexdigest()
-                    ssdeep = compute_ssdeep(file_path+'/'+filename)
+                    # ssdeep = compute_ssdeep(file_path+'/'+filename)
                     tlsh = compute_tlsh(file_path+'/'+filename)
 
                     # Get metadata
@@ -86,13 +86,13 @@ def get_hashes(parent, lst_labels, collection, Label, directory = 'Z:\Public'):
 
 
                     # Add the hash and filename to the list
-                    hashes.append((file_hash, ssdeep, tlsh, file_path.replace("\\", "/" ), filename, file_type, parent.username, MAC_address, user, time_scanned, time_now, file_size, file_extension, creation_time, access_time, modified_time, read_only, readable, writable, executable, is_hidden))
+                    hashes.append((file_hash, tlsh, file_path.replace("\\", "/" ), filename, file_type, parent.username, MAC_address, user, time_scanned, time_now, file_size, file_extension, creation_time, access_time, modified_time, read_only, readable, writable, executable, is_hidden))
                     
                     # Send dictonary to MongoDB     USE ONLY IF THERE IS A CONNECTION!
                     if lst_labels[2] != 'DB status :       connection failed' and collection != False:
                         dict_hash = {
                             'sha256'         : file_hash,
-                            'ssdeep'         : ssdeep,
+                            # 'ssdeep'         : ssdeep,
                             'tlsh'           : tlsh,
                             'file path'      : file_path,
                             'file name'      : filename,
@@ -129,7 +129,7 @@ def get_hashes(parent, lst_labels, collection, Label, directory = 'Z:\Public'):
     # Open a CSV file for writing
     with open('hashes.csv', 'w', newline='') as csv_file:
         writer = csv.writer(csv_file)
-        writer.writerow(['Sha256', 'ssdeep', 'tlsh', 'File path','File name', 'File type', 'Email', 'MAC', 'user', 'time scanned', 'scanned time', 'file size', 'file extension', 'creation time', 'access time', 'modified time', 'read only', 'readable', 'writable', 'executable', 'hidden'])
+        writer.writerow(['Sha256', 'tlsh', 'File path','File name', 'File type', 'Email', 'MAC', 'user', 'time scanned', 'scanned time', 'file size', 'file extension', 'creation time', 'access time', 'modified time', 'read only', 'readable', 'writable', 'executable', 'hidden'])
         for hash_tuple in hashes:
             writer.writerow(hash_tuple)
 

@@ -35,7 +35,7 @@ def services_hash(parent, lst_labels, collection, Label):
 
     with open('services_hashes.csv', 'w', newline='') as f:
         writer = csv.writer(f)
-        writer.writerow(['Service name', 'Executable path', 'SHA256 hash', 'SSDEEP', 'TLSH', 'Email', 'MAC', 'user', 'time scanned', 'file size', 'file extension', 'creation time', 'access time', 'modified time', 'read only', 'writable', 'executable', 'hidden'])
+        writer.writerow(['Service name', 'Executable path', 'SHA256 hash', 'TLSH', 'Email', 'MAC', 'user', 'time scanned', 'file size', 'file extension', 'creation time', 'access time', 'modified time', 'read only', 'writable', 'executable', 'hidden'])
         for service in services:
             try:
                 binpath = service.as_dict()['binpath']
@@ -54,7 +54,7 @@ def services_hash(parent, lst_labels, collection, Label):
 
                 # Calculate the hashes of the file contents
                 hash_value = get_hash(binpath)
-                ssdeep = compute_ssdeep(binpath)
+                # ssdeep = compute_ssdeep(binpath)
                 tlsh = compute_tlsh(binpath)
 
                 # Get metadata
@@ -75,13 +75,13 @@ def services_hash(parent, lst_labels, collection, Label):
                 executable = bool(file_attributes & win32con.FILE_ATTRIBUTE_DIRECTORY)
                 is_hidden = bool(file_attributes & win32con.FILE_ATTRIBUTE_HIDDEN)
                 
-                writer.writerow([service.name(), file_path, hash_value, ssdeep, tlsh, parent.username, MAC_address, user, time_now, file_size, file_extension, creation_time, access_time, modified_time, read_only, writable, executable, is_hidden])
+                writer.writerow([service.name(), file_path, hash_value, tlsh, parent.username, MAC_address, user, time_now, file_size, file_extension, creation_time, access_time, modified_time, read_only, writable, executable, is_hidden])
 
                 # Send dictonary to MongoDB     USE ONLY IF THERE IS A CONNECTION!
                 if lst_labels[2] != 'DB status :       connection failed' and collection != False:
                     dict_hash = {
                         'sha256'         : hash_value,
-                        'ssdeep'         : ssdeep,
+                        # 'ssdeep'         : ssdeep,
                         'tlsh'           : tlsh,
                         'file path'      : file_path,
                         'file name'      : service.name(),
