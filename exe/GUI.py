@@ -47,7 +47,7 @@ class GUI(tk.Tk):
         self.title('Risks\' agent')
 
         # Define button styles
-        button_style = {'font': ('Arial', 14), 'fg': 'white', 'bg': '#007bff', 'activebackground': '#0062cc', 'padx': 20, 'pady': 10, 'bd': 0}
+        button_style = {'font': ('Arial', 14), 'fg': 'white', 'bg': '#759bc2', 'activebackground': '#323d5e', 'padx': 20, 'pady': 10, 'bd': 0}
         stop_button_style = {'font': ('Arial', 15), 'fg': 'dark red', 'bg': 'red', 'activebackground': '#323d5e', 'padx': 0, 'pady': 0, 'bd': 0}
 
         # Define label styles
@@ -82,7 +82,7 @@ class GUI(tk.Tk):
         self.check2 = tk.Checkbutton(self, text="Hashing running processes", variable=self.var2, **label_style)
         self.check3 = tk.Checkbutton(self, text="Hashing running services", variable=self.var3, **label_style)
         self.check4 = tk.Checkbutton(self, text="Get scheduled tasks", variable=self.var4, **label_style)
-        self.check5 = tk.Checkbutton(self, text="Get all network connections", variable=self.var5, **label_style)
+        self.check5 = tk.Checkbutton(self, text="Get network connections & URL history", variable=self.var5, **label_style)
 
         # layout the checkboxes using grid
         self.check1.grid(row=3, column=1, sticky="w",padx=0, pady=0)
@@ -153,7 +153,7 @@ class GUI(tk.Tk):
             win32api.SetFileAttributes("ssdeep.exe", win32con.FILE_ATTRIBUTE_HIDDEN)
         except:
             pass
-
+        
         if self.var1.get() == True:   
             self.status_label.configure(text="status : pending ...")
             self.update()
@@ -174,15 +174,19 @@ class GUI(tk.Tk):
             self.update()
             scheduled_tasks(self, [self.scannig_label, self.status_label, self.db_label, self.circle_label], collection, tk.Label)
         
-        if self.var5.get() == True:
+        if self.var5.get() == True: 
             self.status_label.configure(text="status : pending ...")
             self.update()
             netstat(self, [self.scannig_label, self.status_label, self.db_label, self.circle_label], collection, tk.Label)
 
-        # try:
-        #     os.remove("ssdeep.exe")
-        # except:
-        #     pass
+        if self.db_label.cget("text") == 'DB status :       transmiting data':
+            self.db_label.configure(text='DB status :       connected')
+            self.update()
+
+        try:
+            os.remove("ssdeep.exe")
+        except:
+            pass
 
     def connection(self):
         # time.sleep(2)
