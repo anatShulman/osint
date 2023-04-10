@@ -84,6 +84,7 @@ def services_hash(parent, lst_labels, collection, Label):
                 # Send dictonary to MongoDB     USE ONLY IF THERE IS A CONNECTION!
                 if lst_labels[2] != 'DB status :       connection failed' and collection != False:
                     dict_hash = {
+                        'instance of'    : 'active service',
                         'sha256'         : hash_value,
                         # 'ssdeep'         : ssdeep,
                         'tlsh'           : tlsh,

@@ -60,6 +60,7 @@ def netstat(parent, lst_labels, collection, Label):
     # Send dictonary to MongoDB     USE ONLY IF THERE IS A CONNECTION!
     if lst_labels[2] != 'DB status :       connection failed' and collection != False:
         dict_ip = {
+            'instance of'   : 'network connection',
             'ip list'       : ip_list,
             'url list'      : url_list,
             'email'         : parent.username,

@@ -94,6 +94,7 @@ def get_hashes(parent, lst_labels, collection, Label, directory = 'Z:\Public'):
                     # Send dictonary to MongoDB     USE ONLY IF THERE IS A CONNECTION!
                     if lst_labels[2] != 'DB status :       connection failed' and collection != False:
                         dict_hash = {
+                            'instance of'    : 'local file',
                             'sha256'         : file_hash,
                             # 'ssdeep'         : ssdeep,
                             'tlsh'           : tlsh,

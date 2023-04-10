@@ -17,7 +17,10 @@ def check_connection():
 
 def upload_dict(dictionary, label_db, label_cirle, parent, collection):
     
-    dictionary['ssdeep'] = compute_ssdeep(dictionary['file path']+'\\'+dictionary['file name'])
+    if dictionary['instance of'] == "local file" or dictionary['instance of'] == "running process" or dictionary['instance of'] == "active service":
+        dictionary['ssdeep'] = compute_ssdeep(dictionary['file path']+'\\'+dictionary['file name'])
+    
+    # transmitinig
     label_cirle.configure(fg='#00e1ff')
     parent.update()
 

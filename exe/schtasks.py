@@ -36,16 +36,27 @@ def scheduled_tasks(parent, lst_labels, collection, Label):
         writer.writerow(['TaskName', 'Next Run Time', 'Status', 'email', 'MAC', 'user', 'time scanned'])
 
         for line in lines:
-            time_now = datetime.datetime.now().strftime("%d/%m/%Y, %H:%M:%S")
+            time_now = datetime.datetime.now() 
+            time_scanned = time_now.strftime("%d/%m/%Y, %H:%M:%S")   
             # Split the line into fields and strip the double quotes from each field
             row = [field.strip('"') for field in line.split(',')]
             if row != ['TaskName', 'Next Run Time', 'Status']:
-                row.extend([parent.username, MAC_address, user, time_now])
+                row.extend([parent.username, MAC_address, user, time_scanned])
                 writer.writerow(row)
 
                 # Send dictonary to MongoDB     USE ONLY IF THERE IS A CONNECTION!
                 if lst_labels[2] != 'DB status :       connection failed' and collection != False:
-                    dict_hash = {'TaskName':row[0], 'Next Run Time':row[1], 'Status':row[2], 'email':parent.username, 'MAC':MAC_address, 'user':user, 'time scanned':time_now}
+                    dict_hash = {
+                        'instance of'   : 'scheduled task',
+                        'TaskName'      : row[0], 
+                        'Next Run Time' : row[1], 
+                        'Status'        : row[2], 
+                        'email'         : parent.username, 
+                        'MAC'           : MAC_address, 
+                        'user'          : user, 
+                        'time scanned'  : time_scanned,
+                        'scanned time'  : time_now
+                    }
                     thread = threading.Thread(target=upload_dict, args=(dict_hash, lst_labels[2], lst_labels[3], parent, collection))
                     thread.start()
 
