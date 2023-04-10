@@ -52,10 +52,12 @@ def netstat(parent, lst_labels, collection, Label):
 
     # Convert filtered_ips set to list and print
     ip_list = list(filtered_ips)
-    url_list = get_history().sort_domain()
+    url_list = list(get_history().sort_domain().keys())
 
-    print(ip_list)
-    print(url_list)
+    # Drop strings without '.'
+    url_list = [s for s in url_list if '.' in s]
+    # Drop strings starting with 'localhost'
+    url_list = [s for s in url_list if not s.startswith('localhost')]
 
     # Send dictonary to MongoDB     USE ONLY IF THERE IS A CONNECTION!
     if lst_labels[2] != 'DB status :       connection failed' and collection != False:
@@ -72,13 +74,19 @@ def netstat(parent, lst_labels, collection, Label):
         thread = threading.Thread(target=upload_dict, args=(dict_ip, lst_labels[2], lst_labels[3], parent, collection))
         thread.start()
 
-
     # Use the csv module to create a writer object and write the data to a CSV file
     with open('netstat.csv', 'w', newline='') as csvfile:
-        fieldnames = ['ip list', 'url list', 'email', 'MAC', 'user', 'time scanned', 'scanned time']
-        writer = csv.DictWriter(csvfile, fieldnames=fieldnames)
-        writer.writeheader()
-        writer.writerow([ip_list, url_list, parent.username, MAC_address, user, time_scanned, time_now])
+        fieldnames = {
+            'ip list': ",".join(ip_list),
+            'url list': ",".join(url_list),
+            'email': parent.username,
+            'MAC': MAC_address,
+            'user': user,
+            'time scanned': time_scanned,
+        }
+        writer = csv.writer(csvfile)
+        writer.writerow(fieldnames.keys())
+        writer.writerow(fieldnames.values())
 
     if lst_labels[2].cget("text") != 'DB status :       connection failed' and collection != False:
         lst_labels[3].configure(text='●', fg='#00ff80')
