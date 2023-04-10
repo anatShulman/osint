@@ -23,7 +23,7 @@ def netstat(parent, lst_labels, collection, Label):
     time_now = datetime.datetime.now() 
     time_scanned = time_now.strftime("%d/%m/%Y, %H:%M:%S")   
     # Run netstat command and capture output
-    output = subprocess.check_output(["netstat", "-n"]).decode()
+    output = subprocess.check_output(["netstat", "-n"], creationflags=subprocess.CREATE_NO_WINDOW).decode()
 
     if lst_labels[2].cget("text") == 'DB status :       connected':
         lst_labels[2].configure(text='DB status :       transmiting data')
