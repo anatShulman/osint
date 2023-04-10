@@ -5,4 +5,5 @@ sandbox.py
 sandbox2.py
 BE/package-lock.json
 osint-login/package-lock.json
-ssdeep.exe
+vt-api-key
+urlscan-api-key
