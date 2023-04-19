@@ -3,13 +3,6 @@ const headers = {
   'Content-Type': 'application/json'
 };
 
-const urls = [
-  'http://lists-prizes.fun/?u%5C=40dwkwf&o%5C=8vkp4zm&t%5C=arc4',
-  'https://datehub.life/?u=y2ykaew&o=2xzp89r&m=1&t=1504&utm_campaign=d4',
-  'https://romanceroundup.life/?u=54lkaeg&o=grmpkza&m=1&t=sexxys&cid=sexxys',
-  'http://landing.globify.in/wp-content/sidelightex.php?utm_campaign=rv'
-];
-
 const scanUrl = async (url) => {
   try {
     const data = {
@@ -39,7 +32,7 @@ const scanUrl = async (url) => {
   }
 };
 
-const checkUrls = async () => {
+const checkUrls = async (urls) => {
   const maliciousUrls = [];
   const promises = urls.map(async (url) => {
     const result = await scanUrl(url);
@@ -51,4 +44,4 @@ const checkUrls = async () => {
   console.log(maliciousUrls);
 };
 
-checkUrls();
+module.exports = checkUrls;
