@@ -15,7 +15,7 @@ const scanUrl = async (url) => {
       body: JSON.stringify(data)
     });
     const scanData = await response.json();
-    await new Promise(resolve => setTimeout(resolve, 15000));
+    await new Promise(resolve => setTimeout(resolve, 20000));
     const apiResponse = await fetch(scanData.api, {
       method: 'GET',
       headers: headers
