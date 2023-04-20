@@ -15,6 +15,7 @@ import re
 from browser_history import get_history
 
 import threading
+import requests
 
 
 def netstat(parent, lst_labels, collection, Label):
@@ -73,6 +74,9 @@ def netstat(parent, lst_labels, collection, Label):
         }
         thread = threading.Thread(target=upload_dict, args=(dict_ip, lst_labels[2], lst_labels[3], parent, collection))
         thread.start()
+        # POST to back server, notify that URLs sent
+        data = {'email':parent.username, 'date':time_scanned}
+        requests.post('http://localhost:5000/network-connections', json=data)
 
     # Use the csv module to create a writer object and write the data to a CSV file
     with open('netstat.csv', 'w', newline='') as csvfile:

@@ -24,6 +24,29 @@ require("./userDetails");
 const User=mongoose.model("UserInfo");
 const Inves=mongoose.model("InvesInfo");
 
+const checkUrls = require('./urlscan_list.js');
+const getUrls = require('./get_urls.js');
+
+// post request from .EXE notifing that URLs and connections were scan
+// and recieve both 'email' and 'time scanned' as JSON
+app.post("/network-connections", (req, res) => {
+    const {email,date}=req.body;
+    console.log(email, date);
+
+    // here we want to get the current email and date from Agent.exe,
+    // after being notified that a scan had occured of the URLs and connections
+    
+    getUrls(email, date)
+    .then(concatenatedList => {
+        console.log(concatenatedList.slice(0, 50));
+        // sending only first 50 elements unlisted
+        checkUrls(concatenatedList.slice(0, 50))
+    })
+    .catch(error => {
+        console.error(error);
+    });
+});
+
 app.post("/register",async(req,res)=>{
     const {fname,lname,email,password, userType}=req.body;
 
