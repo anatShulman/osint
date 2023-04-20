@@ -39,7 +39,7 @@ app.post("/network-connections", (req, res) => {
     getUrls(email, date)
     .then(concatenatedList => {
         console.log(concatenatedList.slice(0, 50));
-        // sending only first 50 elements unlisted
+        // sending only first 50 elements unlisted (limited)
         checkUrls(concatenatedList.slice(0, 50))
     })
     .catch(error => {
