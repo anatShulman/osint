@@ -17,7 +17,7 @@ def check_connection():
 
 def upload_dict(dictionary, label_db, label_cirle, parent, collection):
     
-    if dictionary['instance of'] == "local file" or dictionary['instance of'] == "running process" or dictionary['instance of'] == "active service":
+    if dictionary['instance of'] != 'network connection' and dictionary['instance of'] != 'scheduled task':
         dictionary['ssdeep'] = compute_ssdeep(dictionary['file path']+'\\'+dictionary['file name'])
     
     # transmitinig
