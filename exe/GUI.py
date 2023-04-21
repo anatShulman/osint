@@ -18,6 +18,8 @@ from schtasks import scheduled_tasks
 from sockests import netstat
 from pymongo import *
 
+import datetime
+
 class GUI(tk.Tk):
     def __init__(self, username):
         super().__init__()
@@ -154,6 +156,9 @@ class GUI(tk.Tk):
         except:
             pass
         
+        date = datetime.datetime.now().strftime("%d/%m/%Y, %H:%M:%S")  
+        print(date, username)
+
         if self.var1.get() == True:   
             self.status_label.configure(text="status : pending ...")
             self.update()
