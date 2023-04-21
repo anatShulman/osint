@@ -26,6 +26,7 @@ const Inves=mongoose.model("InvesInfo");
 
 const checkUrls = require('./urlscan_list.js');
 const getUrls = require('./get_urls.js');
+const getHashes = require("./get_hashes");
 
 // post request from .EXE notifing that URLs and connections were scan
 // and recieve both 'email' and 'time scanned' as JSON
@@ -45,6 +46,27 @@ app.post("/network-connections", (req, res) => {
         // TODO: send the 'concatenatedList' to Machine-learning algorithm additionally to Urlscan
 
         console.log(results);
+    })
+    .catch(error => {
+        console.error(error);
+    });
+});
+
+app.post("/hashes", (req, res) => {
+    const {email,date}=req.body;
+    console.log(email, date);
+
+    // here we want to get the current email and date from Agent.exe,
+    // after being notified that a scan had occured of the Hashes
+    
+    getHashes(email, date)
+    .then(sha256List => {
+        console.log(sha256List);
+        // const results = checkUrls(sha256List)
+        
+        // // TODO: send the 'concatenatedList' to Machine-learning algorithm additionally to Urlscan
+
+        // console.log(results);
     })
     .catch(error => {
         console.error(error);

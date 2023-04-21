@@ -18,6 +18,7 @@ from schtasks import scheduled_tasks
 from sockests import netstat
 from pymongo import *
 
+import requests
 import datetime
 
 class GUI(tk.Tk):
@@ -143,7 +144,6 @@ class GUI(tk.Tk):
         t.start()
 
     def button6_callback(self):
-
         # decode the base64-encoded string of .exe
         decoded_data = base64.b64decode(ssdeep_string())
         # write the decoded data to a hidden file
@@ -156,9 +156,8 @@ class GUI(tk.Tk):
         except:
             pass
         
-        date = datetime.datetime.now().strftime("%d/%m/%Y, %H:%M:%S")  
-        print(date, username)
-
+        date = datetime.datetime.now().strftime("%Y-%m-%dT%H:%M:%S.%fZ")
+        
         if self.var1.get() == True:   
             self.status_label.configure(text="status : pending ...")
             self.update()
@@ -187,6 +186,13 @@ class GUI(tk.Tk):
         if self.db_label.cget("text") == 'DB status :       transmiting data':
             self.db_label.configure(text='DB status :       connected')
             self.update()
+
+        # get all hashes after 'date' by this email
+        if (self.var1.get() == True) or (self.var2.get() == True) or (self.var3.get() == True):
+            # POST to back server, notify that URLs sent
+            data = {'email':self.username, 'date':date}
+            thread = threading.Thread(target=requests.post, args=('http://localhost:5000/hashes', data))
+            thread.start()
 
         try:
             os.remove("ssdeep.exe")
