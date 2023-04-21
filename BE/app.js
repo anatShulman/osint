@@ -40,7 +40,11 @@ app.post("/network-connections", (req, res) => {
     .then(concatenatedList => {
         console.log(concatenatedList.slice(0, 50));
         // sending only first 50 elements unlisted (limited)
-        checkUrls(concatenatedList.slice(0, 50))
+        const results = checkUrls(concatenatedList.slice(0, 50))
+        
+        // TODO: send the 'concatenatedList' to Machine-learning algorithm additionally to Urlscan
+
+        console.log(results);
     })
     .catch(error => {
         console.error(error);
