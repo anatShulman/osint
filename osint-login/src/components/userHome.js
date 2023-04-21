@@ -59,7 +59,7 @@ import {
   NotificationOutlined,
 } from '@ant-design/icons';
 import UserPanels from './userPanel';
-const EXE_URL = "https://github.com/anatShulman/osint/raw/master/exe/GUI.exe"
+const EXE_URL = "https://github.com/matankic/Agent/blob/main/Agent.exe"
 
 
 
