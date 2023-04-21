@@ -4,15 +4,15 @@ const getUrls = require('./get_urls.js');
 // here we want to get the current email and date from Agent.exe,
 // after being notified that a scan had occured of the URLs and connections
 
-getUrls('moaosint@gmail.com', '19/04/2023, 23:21:18')
-  .then(concatenatedList => {
-    console.log(concatenatedList.slice(0, 50));
-    // sending only first 50 elements unlisted
-    checkUrls(concatenatedList.slice(0, 50))
-  })
-  .catch(error => {
-    console.error(error);
-  });
+// getUrls('moaosint@gmail.com', '19/04/2023, 23:21:18')
+//   .then(concatenatedList => {
+//     console.log(concatenatedList.slice(0, 50));
+//     // sending only first 50 elements unlisted
+//     checkUrls(concatenatedList.slice(0, 50))
+//   })
+//   .catch(error => {
+//     console.error(error);
+//   });
 
 
 // // example of real malicious urls for testing
