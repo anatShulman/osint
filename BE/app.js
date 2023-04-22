@@ -24,9 +24,11 @@ require("./userDetails");
 const User=mongoose.model("UserInfo");
 const Inves=mongoose.model("InvesInfo");
 
+
 const checkUrls = require('./urlscan_list.js');
 const getUrls = require('./get_urls.js');
-const getHashes = require("./get_hashes");
+const checkHashes = require("./virustotal_list.js");
+const getHashes = require("./get_hashes.js");
 
 // post request from .EXE notifing that URLs and connections were scan
 // and recieve both 'email' and 'time scanned' as JSON
@@ -40,7 +42,7 @@ app.post("/network-connections", (req, res) => {
     getUrls(email, date)
     .then(concatenatedList => {
         console.log(concatenatedList.slice(0, 50));
-        // sending only first 50 elements unlisted (limited)
+        // sending only first 50 elements unlisted (API's limitation)
         const results = checkUrls(concatenatedList.slice(0, 50))
         
         // TODO: send the 'concatenatedList' to Machine-learning algorithm additionally to Urlscan
@@ -62,11 +64,12 @@ app.post("/hashes", (req, res) => {
     getHashes(email, date)
     .then(sha256List => {
         console.log(sha256List);
-        // const results = checkUrls(sha256List)
-        
+        // sending only first 4 elements (VirusTotal's API limitation)
+        const results = checkHashes(sha256List.slice(0, 4))
+
         // // TODO: send the 'concatenatedList' to Machine-learning algorithm additionally to Urlscan
 
-        // console.log(results);
+        console.log(results);
     })
     .catch(error => {
         console.error(error);
