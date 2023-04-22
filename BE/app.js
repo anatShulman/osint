@@ -30,51 +30,43 @@ const getUrls = require('./get_urls.js');
 const checkHashes = require("./virustotal_list.js");
 const getHashes = require("./get_hashes.js");
 
-// post request from .EXE notifing that URLs and connections were scan
-// and recieve both 'email' and 'time scanned' as JSON
 app.post("/network-connections", (req, res) => {
-    const {email,date}=req.body;
+    const { email, date } = req.body;
     console.log(email, date);
-
-    // here we want to get the current email and date from Agent.exe,
-    // after being notified that a scan had occured of the URLs and connections
-    
+ 
     getUrls(email, date)
-    .then(concatenatedList => {
+      .then(async (concatenatedList) => {
         console.log(concatenatedList.slice(0, 50));
-        // sending only first 50 elements unlisted (API's limitation)
-        const results = checkUrls(concatenatedList.slice(0, 50))
-        
-        // TODO: send the 'concatenatedList' to Machine-learning algorithm additionally to Urlscan
-
+        // sending only first 50 elements unlisted (due to Urlscan API's limitation)
+        const results = await checkUrls(concatenatedList.slice(0, 50));
+  
+        // TODO: send the 'concatenatedList' to Machine-learning algorithm in additionally to Urlscan
+  
         console.log(results);
-    })
-    .catch(error => {
+      })
+      .catch((error) => {
         console.error(error);
-    });
-});
-
-app.post("/hashes", (req, res) => {
-    const {email,date}=req.body;
+      });
+  });
+  
+  app.post("/hashes", (req, res) => {
+    const { email, date } = req.body;
     console.log(email, date);
 
-    // here we want to get the current email and date from Agent.exe,
-    // after being notified that a scan had occured of the Hashes
-    
     getHashes(email, date)
-    .then(sha256List => {
+      .then(async (sha256List) => {
         console.log(sha256List);
-        // sending only first 4 elements (VirusTotal's API limitation)
-        const results = checkHashes(sha256List.slice(0, 4))
-
-        // // TODO: send the 'concatenatedList' to Machine-learning algorithm additionally to Urlscan
-
+        // sending only first 4 elements (due to VirusTotal API's limitation)
+        const results = await checkHashes(sha256List.slice(0, 4));
+  
+        // TODO: send the 'sha256List' to Machine-learning algorithm in additionally to Virustotal
+  
         console.log(results);
-    })
-    .catch(error => {
+      })
+      .catch((error) => {
         console.error(error);
-    });
-});
+      });
+  });
 
 app.post("/register",async(req,res)=>{
     const {fname,lname,email,password, userType}=req.body;
