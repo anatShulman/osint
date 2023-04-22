@@ -12,12 +12,13 @@ const scanHash = async (fileHash) => {
       const maliciousVendors = Object.keys(analysisResults).filter(vendor => analysisResults[vendor].category === 'malicious');
       //   console.log(analysisResults);
       //   console.log(maliciousVendors);
-      
-      return {
-        'reputation': response.data.data.attributes.reputation,
-        'malicious': maliciousVendors.length/Object.keys(analysisResults).length,
-        'log': `${maliciousVendors.length} out of ${Object.keys(analysisResults).length} security vendors detected this file as malicious`
-      }
+       
+      const res = {
+        reputation: response.data.data.attributes.reputation,
+        malicious: maliciousVendors.length/Object.keys(analysisResults).length,
+        log: `${maliciousVendors.length} out of ${Object.keys(analysisResults).length} security vendors detected this file as malicious`
+      };
+      return res;
     })
     .catch(error => {
       console.error(error);
