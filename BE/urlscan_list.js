@@ -41,7 +41,7 @@ const checkUrls = async (urls) => {
     }
   });
   await Promise.all(promises);
-  console.log(maliciousUrls);
+  return maliciousUrls;
 };
 
 module.exports = checkUrls;
