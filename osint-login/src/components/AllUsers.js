@@ -10,17 +10,16 @@ import {
 
 
 
-
-const AllMacines = () => {
+const AllUsers = () => {
   const [data,setData]=useState([]);
 
   useEffect(()=>{
-    fetch("http://localhost:5000/hashes",{
-      method:"POST",
+    fetch("http://localhost:5000/getAllUser",{
+      method:"GET",
     })
     .then((res)=>res.json())
     .then((data)=>{
-      console.log(data, "hashes");
+      console.log(data, "userData");
       setData(data.data);
     });
    },[]);
@@ -28,26 +27,26 @@ const AllMacines = () => {
     <div className="auth-wrapper">
     <div className="auth-inner" style={{width:"auto"}}>
       <Typography variant="h4" gutterBottom>
-      All Machines
+      All Users
     </Typography>
     <table style={{width:500}}>
         <tr>
+          <th>First Name</th>
+          <th>Last Name</th>
           <th>Email</th>
-          <th>User</th>
-          <th>MAC</th>
         </tr>
         {data.map(i=>{
           return(
             <tr>
+            <td>{i.fname}</td>
+            <td>{i.lname}</td>
             <td>{i.email}</td>
-            <td>{i.user}</td>
-            <td>{i.MAC}</td>
             </tr>
           )
         })}
         </table>
-     </div>
+    </div>
     </div>
   );
 }
-export default AllMacines;
+export default AllUsers;

@@ -29,6 +29,7 @@ const checkUrls = require('./urlscan_list.js');
 const getUrls = require('./get_urls.js');
 const checkHashes = require("./virustotal_list.js");
 const getHashes = require("./get_hashes.js");
+const { all } = require("axios");
 
 app.post("/network-connections", (req, res) => {
     const { email, date } = req.body;
@@ -58,6 +59,7 @@ app.post("/network-connections", (req, res) => {
         console.log(sha256List);
         // sending only first 4 elements (due to VirusTotal API's limitation)
         const results = await checkHashes(sha256List.slice(0, 4));
+        res.send({status:"ok",data:results});
   
         // TODO: send the 'sha256List' to Machine-learning algorithm in additionally to Virustotal
   
@@ -229,4 +231,14 @@ app.post("/reset-password/:id/:token",async(req,res)=>{
         
     }
 
+});
+
+app.get("/getAllUser",async(req,res)=>{
+    try{
+        const allUser=await User.find({});
+        res.send({status:"ok",data: allUser});
+        console.log(allUser);
+    }catch(error){
+        console.log(error);
+    }
 });

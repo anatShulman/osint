@@ -53,12 +53,20 @@ import {
   Toolbar,
   Typography,
   makeStyles,
+  ListItemIcon,
+  List,
+  Drawer,
+  Divider,
+  ListItem,
+
+  ListItemText,
+
 } from '@material-ui/core';
 import {
   UserOutlined,
   NotificationOutlined,
 } from '@ant-design/icons';
-import UserPanels from './userPanel';
+import UserNotification from './UserNotiification';
 const EXE_URL = "https://github.com/matankic/Agent/raw/main/Agent.exe"
 
 
@@ -74,7 +82,7 @@ const useStyles = makeStyles((theme) => ({
   toolbar: theme.mixins.toolbar,
 }));
 
-const AdminDashboard = () => {
+const UserDashboard = () => {
 
   const logOut = () => {
     window.localStorage.clear();
@@ -89,7 +97,7 @@ const AdminDashboard = () => {
       aTag.remove();
   }
   const classes = useStyles();
-  const [selectedMenuItem, setSelectedMenuItem] = useState('users');
+  const [selectedMenuItem, setSelectedMenuItem] = useState('Dashboard');
 
   const handleMenuClick = (e) => {
     setSelectedMenuItem(e.key);
@@ -111,11 +119,7 @@ const AdminDashboard = () => {
           <Button onClick={() => { download_file(EXE_URL); } } >Download EXE</Button>
         </Toolbar>
       </AppBar>
-        <Menu theme="dark" mode="horizontal" defaultSelectedKeys={['2']}>
-          <Menu.Item key="1">Dashboard</Menu.Item>
-          <Menu.Item key="2">Reports</Menu.Item>
-          <Menu.Item key="3">Settings</Menu.Item>
-        </Menu>
+
       </Header>
       <Layout>
         <Sider width={200} className="site-layout-background">
@@ -125,15 +129,13 @@ const AdminDashboard = () => {
             onClick={handleMenuClick}
             style={{ height: '100%', borderRight: 0 }}
           >
-            <SubMenu key="sub1" icon={<UserOutlined />} title="Users">
-              <Menu.Item key="users">All Users</Menu.Item>
-            </SubMenu>
-            <SubMenu
-              key="sub3"
-              icon={<NotificationOutlined />}
-              title="Notifications"
-            >
-            </SubMenu>
+        
+            <Menu.Item key="Dashboard" icon={<UserOutlined />} 
+          > Dashboard
+            </Menu.Item>
+      
+            <Menu.Item key="All Notifications" icon={<NotificationOutlined/>}>All Notifications</Menu.Item>
+           
           </Menu>
         </Sider>
         <Layout style={{ padding: '0 24px 24px' }}>
@@ -145,13 +147,8 @@ const AdminDashboard = () => {
               minHeight: 280,
             }}
           >
-            {/* This is where you would render the appropriate component based on the selected menu item */}
-            {selectedMenuItem === 'users' && <UserPanel/>}
-            {selectedMenuItem === 'add-user' && <h1>Add User</h1>}
-            {selectedMenuItem === 'machines' && <h1>All Machines</h1>}
-            {selectedMenuItem === 'add-machine' && <h1>Add Machine</h1>}
-            {selectedMenuItem === 'notifications' && 
-              <h1>All Notifications</h1>}
+            {selectedMenuItem === 'Dashboard' && <UserPanel/>}
+            {selectedMenuItem === 'All Notifications' && <UserNotification/>}
           </Content>
         </Layout>
       </Layout>
@@ -160,7 +157,8 @@ const AdminDashboard = () => {
 };
 
 
-export default AdminDashboard;
+
+export default UserDashboard;
 
 // // Import the components you want to render for each menu item
 // import Dashboard from './Dashboard';

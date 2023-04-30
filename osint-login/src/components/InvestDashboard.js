@@ -5,8 +5,11 @@ import {
   UserOutlined,
   LaptopOutlined,
   NotificationOutlined,
+  BugOutlined,
 } from '@ant-design/icons';
 import AllMacines from './AllMacines';
+import AllUsers from './AllUsers';
+import SuspiciousResults from './SuspiciousResults';
 
 const { SubMenu } = Menu;
 const { Header, Content, Sider } = Layout;
@@ -22,11 +25,6 @@ const AdminDashboard = () => {
     <Layout>
       <Header className="header">
         <div className="logo" />
-        <Menu theme="dark" mode="horizontal" defaultSelectedKeys={['2']}>
-          <Menu.Item key="1">Dashboard</Menu.Item>
-          <Menu.Item key="2">Reports</Menu.Item>
-          <Menu.Item key="3">Settings</Menu.Item>
-        </Menu>
       </Header>
       <Layout>
         <Sider width={200} className="site-layout-background">
@@ -36,20 +34,12 @@ const AdminDashboard = () => {
             onClick={handleMenuClick}
             style={{ height: '100%', borderRight: 0 }}
           >
-            <SubMenu key="sub1" icon={<UserOutlined />} title="Users">
-              <Menu.Item key="users">All Users</Menu.Item>
-            </SubMenu>
-            <SubMenu key="sub2" icon={<LaptopOutlined />} title="Machines">
-              <Menu.Item key="machines">All Machines</Menu.Item>
-            </SubMenu>
-            <SubMenu
-              key="sub3"
-              icon={<NotificationOutlined />}
-              title="Notifications"
-            >
-              <Menu.Item key="notifications">All Notifications</Menu.Item>
-              <Menu.Item key="add-notification">Add Notification</Menu.Item>
-            </SubMenu>
+              <Menu.Item key="users" icon={<UserOutlined />}>All Users</Menu.Item>
+              <Menu.Item key="machines" icon={<LaptopOutlined />}>Machines</Menu.Item>
+
+              <Menu.Item key="add-notification" icon={<NotificationOutlined />}>Add Notification</Menu.Item>
+              <Menu.Item key="suspicious-results" icon={<BugOutlined />}>Suspicious Results</Menu.Item>
+        
           </Menu>
         </Sider>
         <Layout style={{ padding: '0 24px 24px' }}>
@@ -61,11 +51,10 @@ const AdminDashboard = () => {
               minHeight: 280,
             }}
           >
-            {/* This is where you would render the appropriate component based on the selected menu item */}
-            {selectedMenuItem === 'users' && <h1>All Users</h1>}
-            {selectedMenuItem === 'add-user' && <h1>Add User</h1>}
+          
+            {selectedMenuItem === 'users' && <AllUsers/>}
             {selectedMenuItem === 'machines' && <AllMacines/>}
-  
+            {selectedMenuItem === 'suspicious-results' && <SuspiciousResults/>}
             {selectedMenuItem === 'notifications' && (
               <h1>All Notifications</h1>
             )}

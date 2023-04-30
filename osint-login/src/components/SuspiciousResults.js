@@ -10,44 +10,43 @@ import {
 
 
 
-
-const AllMacines = () => {
+const SuspiciousResults = () => {
   const [data,setData]=useState([]);
 
-  useEffect(()=>{
-    fetch("http://localhost:5000/hashes",{
-      method:"POST",
-    })
-    .then((res)=>res.json())
-    .then((data)=>{
-      console.log(data, "hashes");
-      setData(data.data);
-    });
-   },[]);
+//   useEffect(()=>{
+//     fetch("http://localhost:5000/getAllUser",{
+//       method:"GET",
+//     })
+//     .then((res)=>res.json())
+//     .then((data)=>{
+//       console.log(data, "userData");
+//       setData(data.data);
+//     });
+//    },[]);
   return (
     <div className="auth-wrapper">
     <div className="auth-inner" style={{width:"auto"}}>
       <Typography variant="h4" gutterBottom>
-      All Machines
+        Suspicious Results
     </Typography>
     <table style={{width:500}}>
         <tr>
+          <th>First Name</th>
+          <th>Last Name</th>
           <th>Email</th>
-          <th>User</th>
-          <th>MAC</th>
         </tr>
         {data.map(i=>{
           return(
             <tr>
-            <td>{i.email}</td>
-            <td>{i.user}</td>
+            <td>{i.filename}</td>
+            <td>{i.url}</td>
             <td>{i.MAC}</td>
             </tr>
           )
         })}
         </table>
-     </div>
+    </div>
     </div>
   );
 }
-export default AllMacines;
+export default SuspiciousResults;
