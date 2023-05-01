@@ -15,12 +15,12 @@ const AllMacines = () => {
   const [data,setData]=useState([]);
 
   useEffect(()=>{
-    fetch("http://localhost:5000/hashes",{
-      method:"POST",
+    fetch("http://localhost:5000/getMachines",{
+      method:"GET",
     })
     .then((res)=>res.json())
     .then((data)=>{
-      console.log(data, "hashes");
+      console.log(data, "allMachine");
       setData(data.data);
     });
    },[]);

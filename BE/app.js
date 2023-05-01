@@ -15,6 +15,7 @@ const JWT_SECRET= "fbvjdfbvksfbsk1213#$@flvfjdngf13565!";
 
 const mongoUrl= "mongodb+srv://anatshulman:2HBYgG53On6MzWu4@cluster0.i84nq3q.mongodb.net/?retryWrites=true&w=majority";
 
+
 mongoose.connect(mongoUrl,{
     useNewUrlParser:true,
 }).then(()=>{console.log("connect to db");}).catch(e=>console.log(e));
@@ -23,6 +24,7 @@ mongoose.connect(mongoUrl,{
 require("./userDetails");
 const User=mongoose.model("UserInfo");
 const Inves=mongoose.model("InvesInfo");
+const Machin=mongoose.model("CSV");
 
 
 const checkUrls = require('./urlscan_list.js');
@@ -238,6 +240,17 @@ app.get("/getAllUser",async(req,res)=>{
         const allUser=await User.find({});
         res.send({status:"ok",data: allUser});
         console.log(allUser);
+    }catch(error){
+        console.log(error);
+    }
+});
+
+
+app.get("/getMachines",async(req,res)=>{
+    try{
+        const allMachine=await collection.find({});
+        res.send({status:"ok",data: collection});
+        console.log(collection);
     }catch(error){
         console.log(error);
     }
