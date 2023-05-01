@@ -26,7 +26,6 @@ const User=mongoose.model("UserInfo");
 const Inves=mongoose.model("InvesInfo");
 const Machin=mongoose.model("CSV");
 
-console.log(Machin);
 const checkUrls = require('./urlscan_list.js');
 const getUrls = require('./get_urls.js');
 const checkHashes = require("./virustotal_list.js");
@@ -245,9 +244,7 @@ app.get("/getAllUser",async(req,res)=>{
     }
 });
 
-
 app.get("/getMachines",async(req,res)=>{
-   
     try{
         const allMachine=await Machin.find({});
         res.send({status:"ok",data: allMachine});

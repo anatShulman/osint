@@ -29,9 +29,9 @@ const UserPanel = () => {
         <table style={{width:300}}>
         <tr>
           <th>File Name</th>
-          <th>Path</th>
           <th>Score</th>
           <th>identification</th>
+          <th>sha256</th>
         </tr>
         {data.map(i=>{
           return(
@@ -39,6 +39,7 @@ const UserPanel = () => {
             <td>{i.MAC}</td>
             <td>{i.email}</td>
             <td>{i.user}</td>
+            <td>{i.sha256}</td>
             </tr>
           )
         })}

@@ -29,50 +29,49 @@ const InvesDetailsScehma = new mongoose.Schema(
 
 const CSVSchema=new mongoose.Schema(
   {
-    "instance of":String,
-    
+    // "instance of":String,
 
-      sha256:String,
+       sha256:String,
 
-      tlsh:String,
+    //   tlsh:String,
 
-      "file path":String,
+    //   "file path":String,
 
-      "file name":String,
+    //   "file name":String,
 
-      "file type":String,
+    //   "file type":String,
 
-      "email":String,
+      email:String,
 
-      "MAC":String,
+      MAC:String,
 
-      "user":String,
+      user:String,
 
-      "time scanned":String,
+      // "time scanned":String,
 
-      "scanned time":Date,
+      // "scanned time":Date,
 
-      "file size":String,
+      // "file size":String,
 
-      "file extension":String,
+      // "file extension":String,
 
-      "creation time":String,
+      // "creation time":String,
 
-      "access time":String,
+      // "access time":String,
 
-      "modified time":String,
+      // "modified time":String,
 
-      "read only":Boolean,
+      // "read only":Boolean,
 
-      readable:Boolean,
+      // readable:Boolean,
 
-writable:Boolean,
+      // writable:Boolean,
 
-executable:Boolean,
+      // executable:Boolean,
 
-hidden:Boolean,
+      // hidden:Boolean,
 
-ssdeep:Boolean,
+      // ssdeep:Boolean,
 
 },
 {
