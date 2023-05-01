@@ -27,6 +27,63 @@ const InvesDetailsScehma = new mongoose.Schema(
   }
 );
 
+const CSVSchema=new mongoose.Schema(
+  {
+    "instance of":String,
+    
+
+      sha256:String,
+
+      tlsh:String,
+
+      "file path":String,
+
+      "file name":String,
+
+      "file type":String,
+
+      "email":String,
+
+      "MAC":String,
+
+      "user":String,
+
+      "time scanned":String,
+
+      "scanned time":Date,
+
+      "file size":String,
+
+      "file extension":String,
+
+      "creation time":String,
+
+      "access time":String,
+
+      "modified time":String,
+
+      "read only":Boolean,
+
+      readable:Boolean,
+
+writable:Boolean,
+
+executable:Boolean,
+
+hidden:Boolean,
+
+ssdeep:Boolean,
+
+},
+{
+  collection: "CSV",
+}
+);
+
+
+
 mongoose.model("UserInfo", UserDetailsScehma);
 
 mongoose.model("InvesInfo", InvesDetailsScehma);
+
+mongoose.model("CSV",CSVSchema);

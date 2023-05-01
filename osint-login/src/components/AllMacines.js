@@ -20,7 +20,7 @@ const AllMacines = () => {
     })
     .then((res)=>res.json())
     .then((data)=>{
-      console.log(data, "allMachine");
+      console.log(data,"AllMachine");
       setData(data.data);
     });
    },[]);
