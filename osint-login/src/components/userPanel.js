@@ -22,7 +22,7 @@ const UserPanel = () => {
       </Typography>
       <Grid container spacing={3}>
         <Grid item xs={12} sm={6} md={4}>
-        <GaugeChart id="gauge-chart1" style={{width:200}}/>
+        <GaugeChart id="gauge-chart1" style={{width:300}}/>
         </Grid>
         <Grid item xs={12} sm={6} md={4}>
           <Typography variant='h6'>Suspicious files:</Typography>
@@ -36,9 +36,9 @@ const UserPanel = () => {
         {data.map(i=>{
           return(
             <tr>
-            <td>{i.MAC}</td>
-            <td>{i.email}</td>
-            <td>{i.user}</td>
+            <td>{i.log}</td>
+            <td>{i.malicious}</td>
+            <td>{i.reputation}</td>
             <td>{i.sha256}</td>
             </tr>
           )
@@ -46,44 +46,7 @@ const UserPanel = () => {
        
         </table>
         </Grid>
-        <Grid item xs={12} sm={6} md={4}>
-        <Typography variant='h6'>Suspicious processes:</Typography>
-        <table  style={{width:200}}>
-        <tr>
-          <th>Process Name</th>
-          <th>Path</th>
-          <th>score</th>
-        </tr>
-        {data.map(i=>{
-          return(
-            <tr>
-            <td>{i.MAC}</td>
-            <td>{i.email}</td>
-            <td>{i.user}</td>
-            </tr>
-          )
-        })}
-        </table>
-        </Grid>
-        <Grid item xs={12} sm={6} md={4}>
-        <Typography variant='h6'>Suspicious services:</Typography>
-          <table  style={{width:200}}>
-        <tr>
-          <th>Service Name</th>
-          <th>Path</th>
-         
-        </tr>
-        {data.map(i=>{
-          return(
-            <tr>
-            <td>{i.MAC}</td>
-            <td>{i.email}</td>
-            <td>{i.user}</td>
-            </tr>
-          )
-        })}
-        </table>
-        </Grid>
+      
         <Grid item xs={12} sm={6} md={4}>
         <Typography variant='h6'>Suspicious network connactions:</Typography>
         <table  style={{width:200}}>

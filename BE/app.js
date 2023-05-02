@@ -41,6 +41,7 @@ app.post("/network-connections", (req, res) => {
         console.log(concatenatedList.slice(0, 50));
         // sending only first 50 elements unlisted (due to Urlscan API's limitation)
         const results = await checkUrls(concatenatedList.slice(0, 50));
+        res.send({status:"ok",data:results});
   
         // TODO: send the 'concatenatedList' to Machine-learning algorithm in additionally to Urlscan
   
