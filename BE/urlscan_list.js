@@ -22,7 +22,7 @@ const scanUrl = async (url) => {
     });
     const apiData = await apiResponse.json();
     if (apiData.verdicts.overall.malicious) {
-      return `${url} is malicious: ${apiData.verdicts.overall.tags}`;
+      return  urlMal=`${url} is malicious: ${apiData.verdicts.overall.tags}`;
     } else {
       return null;
     }
