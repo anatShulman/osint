@@ -99,7 +99,6 @@ const UserPanel = () => {
       </tbody>
     </table>
   </Grid>
-
  
 </Grid>
 </div>
