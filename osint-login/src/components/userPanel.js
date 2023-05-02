@@ -14,8 +14,8 @@ const UserPanel = () => {
       "Access-Control-Allow-Origin": "*",
     },
     body: JSON.stringify({
-      email: "A@GMAIL.COM",
-      date: "2023-05-02",
+      email:"A@GMAIL.COM",
+      date:"2023-05-02",
     }),
   })
   .then((res)=>res.json())
