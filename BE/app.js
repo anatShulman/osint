@@ -72,6 +72,8 @@ app.post("/network-connections", (req, res) => {
       });
   });
 
+
+
 app.post("/register",async(req,res)=>{
     const {fname,lname,email,password, userType}=req.body;
 

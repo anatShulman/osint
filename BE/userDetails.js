@@ -47,6 +47,11 @@ const CSVSchema=new mongoose.Schema(
 
       user:String,
 
+      reputation:String,
+    log:String,
+
+      malicious:String,
+
       // "time scanned":String,
 
       // "scanned time":Date,
