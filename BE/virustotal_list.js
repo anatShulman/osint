@@ -14,6 +14,9 @@ const scanHash = async (fileHash) => {
       sha256: fileHash,
       reputation: response.data.data.attributes.reputation,
       malicious: maliciousVendors.length/Object.keys(analysisResults).length,
+      path:'',
+      name:'',
+      instance:'',
       log: `${maliciousVendors.length} out of ${Object.keys(analysisResults).length} security vendors detected this file as malicious`
     };
     return res;
