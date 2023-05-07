@@ -65,7 +65,9 @@ const UserPanel = () => {
       <div style={{ margin: "2rem 0" }}>
         <Grid container spacing={6}>
           <Grid item xs={12} sm={6} md={4}>
-            <GaugeChart id="gauge-chart1" style={{ width: 300 }} />
+            <GaugeChart id="gauge-chart1" 
+            value={0.1} 
+            style={{ width: "300px", height: "200px" }} />
           </Grid>
         </Grid>
       </div>
