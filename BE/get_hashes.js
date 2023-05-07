@@ -4,12 +4,12 @@ const getHashes = async (email, date) => {
   const client = new MongoClient('mongodb+srv://anatshulman:2HBYgG53On6MzWu4@cluster0.i84nq3q.mongodb.net/?retryWrites=true&w=majority');
   await client.connect();
 
-  const db = client.db('Cluster0');
+  const db = client.db('test');
   const collection = db.collection('CSV');
 
   const query = {
     email,
-    'scanned time': { $gt: new Date(date) },
+    "scanned time": { $gte: new Date(date) },
   };
 
   const options = {

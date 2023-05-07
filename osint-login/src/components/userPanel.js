@@ -4,11 +4,12 @@ import GaugeChart from 'react-gauge-chart';
 import { Email, Margin } from '@mui/icons-material';
 import LinearProgress from '@material-ui/core/LinearProgress';
 
-
 const UserPanel = () => {
   const [data,setData]=useState([]);
 
  useEffect(()=>{
+  const email = localStorage.getItem("email")
+  const date = localStorage.getItem("date")
   fetch("http://localhost:5000/hashes",{
     method:"POST",
     crossDomain: true,
@@ -18,8 +19,8 @@ const UserPanel = () => {
       "Access-Control-Allow-Origin": "*",
     },
     body: JSON.stringify({
-      email:"A@GMAIL.COM",
-      date:"2023-05-02"
+      email:email,
+      date:date
     }),
   })
   .then((res)=>res.json())
@@ -30,6 +31,8 @@ const UserPanel = () => {
  },[]);
 
  useEffect(()=>{
+  const email = localStorage.getItem("email")
+  const date = localStorage.getItem("date")
   fetch("http://localhost:5000/network-connections",{
     method:"POST",
     crossDomain: true,
@@ -39,8 +42,8 @@ const UserPanel = () => {
       "Access-Control-Allow-Origin": "*",
     },
     body: JSON.stringify({
-      email:"A@GMAIL.COM",
-      date:"2023-05-02"
+      email:email,
+      date:date
     }),
   })
   .then((res)=>res.json())
@@ -49,7 +52,6 @@ const UserPanel = () => {
     setData(data.data);
   });
  },[]);
-
   
  return(
  <div>

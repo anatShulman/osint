@@ -34,6 +34,7 @@ const { all } = require("axios");
 
 app.post("/network-connections", (req, res) => {
     const { email, date } = req.body;
+    console.log('Credentials: +++++++++++++++++++');
     console.log(email, date);
  
     getUrls(email, date)
@@ -54,6 +55,7 @@ app.post("/network-connections", (req, res) => {
   
   app.post("/hashes", (req, res) => {
     const { email, date } = req.body;
+    console.log('Credentials: +++++++++++++++++++');
     console.log(email, date);
 
     getHashes(email, date)
