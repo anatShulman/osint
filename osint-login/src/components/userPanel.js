@@ -86,9 +86,12 @@ const UserPanel = () => {
           <tbody>
             {filesData.map((item, index) => (
               <tr key={index}>
+                <td style={{ wordBreak: "break-word" }}>{item.instance}</td>
+                <td style={{ wordBreak: "break-word" }}>{item.name}</td>
                 <td style={{ wordBreak: "break-word" }}>{item.reputation}</td>
                 <td style={{ wordBreak: "break-word" }}>{item.malicious}</td>
                 <td style={{ wordBreak: "break-word" }}>{item.sha256}</td>
+                <td style={{ wordBreak: "break-word" }}>{item.path}</td>
               </tr>
             ))}
           </tbody>

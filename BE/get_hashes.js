@@ -16,13 +16,15 @@ const getHashes = async (email, date) => {
     projection: {
       _id: 0,
       sha256: 1,
+      "file name": 1,
+      "file path": 1,
+      "instance of": 1
     },
   };
 
   const result = await collection.find(query, options).toArray();
 
-  const sha256Set = new Set(result.map(({ sha256 }) => sha256));
-  const sha256List = Array.from(sha256Set);
+  const sha256List = result.map(({ sha256, "file name": name, "file path": path, "instance of": instance }) => ({ sha256, name, path, instance }));
 
   await client.close();
 

@@ -1,8 +1,8 @@
 const axios = require('axios');
 
-const scanHash = async (fileHash) => {
+const scanHash = async ({ sha256, name, path, instance }) => {
   try {
-    const response = await axios.get(`https://www.virustotal.com/api/v3/files/${fileHash}`, {
+    const response = await axios.get(`https://www.virustotal.com/api/v3/files/${sha256}`, {
       headers: {
         'x-apikey': '24e23e5e024c7298872ffa4e9c3835cd051a229584a5f280dbb41e57503b5aed'
       }
@@ -11,13 +11,13 @@ const scanHash = async (fileHash) => {
     const maliciousVendors = Object.keys(analysisResults).filter(vendor => analysisResults[vendor].category === 'malicious');
 
     const res = {
-      sha256: fileHash,
+      sha256,
       reputation: response.data.data.attributes.reputation,
       malicious: maliciousVendors.length/Object.keys(analysisResults).length,
-      path:'',
-      name:'',
-      instance:'',
-      log: `${maliciousVendors.length} out of ${Object.keys(analysisResults).length} security vendors detected this file as malicious`
+      path: path,
+      name: name,
+      instance: instance,
+      // log: `${maliciousVendors.length} out of ${Object.keys(analysisResults).length} security vendors detected this file as malicious`
     };
     return res;
   } catch (error) {
@@ -28,8 +28,8 @@ const scanHash = async (fileHash) => {
 
 const checkHashes = async (hashes) => {
   const maliciousHashes = [];
-  const promises = hashes.map(async (hash) => {
-    const result = await scanHash(hash);
+  const promises = hashes.map(async ({ sha256, name, path, instance }) => {
+    const result = await scanHash({ sha256, name, path, instance });
     if (result !== null) {
       if (result.malicious > 0 || result.malicious < 0){  
         maliciousHashes.push(result);
@@ -37,7 +37,11 @@ const checkHashes = async (hashes) => {
     }
   });
   await Promise.all(promises);
-  return maliciousHashes;
+
+  // Remove duplicate dictionaries
+  const uniqueMaliciousHashes = [...new Set(maliciousHashes.map(JSON.stringify))].map(JSON.parse);
+
+  return uniqueMaliciousHashes;
 };
 
 module.exports = checkHashes;
