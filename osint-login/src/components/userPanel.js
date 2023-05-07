@@ -54,38 +54,45 @@ const UserPanel = () => {
  },[]);
   
  return(
- <div>
- <Typography variant="h4" gutterBottom>
-   Dashboard
- </Typography>
- <Grid container spacing={6}>
-   <Grid item xs={12} sm={6} md={4}>
-     <GaugeChart id="gauge-chart1" style={{ width: 200 }} />
-   </Grid>
-   <Grid item xs={12} sm={6} md={4}>
-  <Typography variant='h6'>Suspicious files:</Typography>
-  <table style={{ width: "100%" }}>
-    <thead>
-      <tr>
-        <th>Score</th>
-        <th>Identification</th>
-        <th>SHA256</th>
-      </tr>
-    </thead>
-    <tbody>
-      {data.map((item, index) => (
-        <tr key={index}>
-          <td style={{ wordBreak: "break-word" }}>{item.reputation}</td>
-          <td style={{ wordBreak: "break-word" }}>{item.malicious}</td>
-          <td style={{ wordBreak: "break-word" }}>{item.sha256}</td>
+<div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+  <div>
+    <Typography variant="h4" gutterBottom>
+      Dashboard
+    </Typography>
+  </div>
 
+  <div style={{ margin: '2rem 0' }}>
+    <Grid container spacing={6} justify='center'>
+      <Grid item xs={12} sm={6} md={4}>
+        <GaugeChart id="gauge-chart1" style={{ width: 200 }} />
+      </Grid>
+    </Grid>
+  </div>
+
+  <div style={{ margin: '2rem 0' }}>
+    <Typography variant='h6'>Suspicious files:</Typography>
+    <table style={{ width: "100%" }}>
+      <thead>
+        <tr>
+          <th>Score</th>
+          <th>Identification</th>
+          <th>SHA256</th>
         </tr>
-      ))}
-    </tbody>
-  </table>
-</Grid>
-   <Grid item xs={12} sm={6} md={4}>
-    <Typography variant='h6'>Suspicious network connactions:</Typography>
+      </thead>
+      <tbody>
+        {data.map((item, index) => (
+          <tr key={index}>
+            <td style={{ wordBreak: "break-word" }}>{item.reputation}</td>
+            <td style={{ wordBreak: "break-word" }}>{item.malicious}</td>
+            <td style={{ wordBreak: "break-word" }}>{item.sha256}</td>
+          </tr>
+        ))}
+      </tbody>
+    </table>
+  </div>
+
+  <div style={{ margin: '2rem 0' }}>
+    <Typography variant='h6'>Suspicious network connections:</Typography>
     <table style={{ width: '100%', borderSpacing: 0, borderCollapse: 'separate' }}>
       <thead>
         <tr>
@@ -100,10 +107,9 @@ const UserPanel = () => {
         ))}
       </tbody>
     </table>
-  </Grid>
- 
-</Grid>
+  </div>
 </div>
+
 );
 };
 export default UserPanel;
