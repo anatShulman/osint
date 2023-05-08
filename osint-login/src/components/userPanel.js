@@ -8,6 +8,7 @@ import LinearProgress from '@material-ui/core/LinearProgress';
 const UserPanel = () => {
   const [filesData, setFilesData] = useState([]);
   const [networkData, setNetworkData] = useState([]);
+  const [reviewScore, setReviewScore] = useState(100);
 
   useEffect(() => {
     const email = localStorage.getItem("email");
@@ -55,6 +56,18 @@ const UserPanel = () => {
       });
   }, []);
 
+  useEffect(() => {
+    const interval = setInterval(() => {
+      const maxScore = Math.max(...filesData.map(item => item.malicious));
+      if (maxScore !== -Infinity) {
+        setReviewScore(Math.round((1 - maxScore)*100));
+        clearInterval(interval);
+      }
+    }, 1000);
+  
+    return () => clearInterval(interval);
+  }, [filesData]);
+
   return (
     <div style={{ display: "flex", flexDirection: "column", alignItems: "center" }}>
       <div>
@@ -65,10 +78,9 @@ const UserPanel = () => {
 
       <div className='row mt-3'>
         <div className='col-md-2' style={{ width: "200px", height: "150px" }}>
-          <ReviewsBar score={100} />
+          <ReviewsBar score={reviewScore} />
         </div>
       </div>
-
 
       <div style={{ margin: "2rem 0" }}>
         <Typography variant="h6">Suspicious files:</Typography>
@@ -89,7 +101,7 @@ const UserPanel = () => {
                 <td style={{ wordBreak: "break-word" }}>{item.instance}</td>
                 <td style={{ wordBreak: "break-word" }}>{item.name}</td>
                 <td style={{ wordBreak: "break-word" }}>{item.reputation}</td>
-                <td style={{ wordBreak: "break-word" }}>{item.malicious}</td>
+                <td style={{ wordBreak: "break-word" }}>{parseFloat(item.malicious).toFixed(2)}</td>
                 <td style={{ wordBreak: "break-word" }}>{item.sha256}</td>
                 <td style={{ wordBreak: "break-word" }}>{item.path}</td>
               </tr>
