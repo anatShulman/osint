@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from 'react';
+import ReviewsBar from './reviews/ReviewsBar';
 import { Grid, Typography } from '@material-ui/core';
 import GaugeChart from 'react-gauge-chart';
-import { Email, Margin } from '@mui/icons-material';
+import { Email, Javascript, Margin } from '@mui/icons-material';
 import LinearProgress from '@material-ui/core/LinearProgress';
 
 const UserPanel = () => {
@@ -62,15 +63,12 @@ const UserPanel = () => {
         </Typography>
       </div>
 
-      <div style={{ margin: "2rem 0" }}>
-        <Grid container spacing={6}>
-          <Grid item xs={12} sm={6} md={4}>
-            <GaugeChart id="gauge-chart1" 
-            value={0.1} 
-            style={{ width: "300px", height: "200px" }} />
-          </Grid>
-        </Grid>
+      <div className='row mt-3'>
+        <div className='col-md-2' style={{ width: "200px", height: "150px" }}>
+          <ReviewsBar score={100} />
+        </div>
       </div>
+
 
       <div style={{ margin: "2rem 0" }}>
         <Typography variant="h6">Suspicious files:</Typography>
