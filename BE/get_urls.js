@@ -7,11 +7,16 @@ const getUrls = async (email, date) => {
   const db = client.db('test');
   const collection = db.collection('CSV');
 
-  const query = {
-    email,
-    "scanned time": { $gte: new Date(date) },
+  let query = {
     "instance of": 'network connection'
   };
+  if (email){
+    query = {
+      email,
+      "scanned time": { $gte: new Date(date) },
+      "instance of": 'network connection'
+    };
+  }
 
   const options = {
     projection: {

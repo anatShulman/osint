@@ -7,10 +7,14 @@ const getHashes = async (email, date) => {
   const db = client.db('test');
   const collection = db.collection('CSV');
 
-  const query = {
-    email,
-    "scanned time": { $gte: new Date(date) },
-  };
+  let query={};
+  if (email){
+    query = {
+      email,
+      "scanned time": { $gte: new Date(date) },
+    };
+  }
+
 
   const options = {
     projection: {

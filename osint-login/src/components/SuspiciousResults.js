@@ -8,15 +8,14 @@ import {
   makeStyles,
 } from '@material-ui/core';
 
-
-
 const SuspiciousResults = () => {
-  const [data,setData]=useState([]);
   const [filesData, setFilesData] = useState([]);
   const [networkData, setNetworkData] = useState([]);
+  const [reviewScore, setReviewScore] = useState(100);
 
   useEffect(() => {
-
+    const email = null;
+    const date = null;
     fetch("http://localhost:5000/hashes", {
       method: "POST",
       crossDomain: true,
@@ -25,11 +24,38 @@ const SuspiciousResults = () => {
         Accept: "application/json",
         "Access-Control-Allow-Origin": "*",
       },
+      body: JSON.stringify({
+        email: email,
+        date: date,
+      }),
     })
       .then((res) => res.json())
       .then((data) => {
         console.log(data, "result");
         setFilesData(data.data);
+      });
+  }, []);
+
+  useEffect(() => {
+    const email = null;
+    const date = null;
+    fetch("http://localhost:5000/network-connections", {
+      method: "POST",
+      crossDomain: true,
+      headers: {
+        "Content-Type": "application/json",
+        Accept: "application/json",
+        "Access-Control-Allow-Origin": "*",
+      },
+      body: JSON.stringify({
+        email: email,
+        date: date,
+      }),
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        console.log(data, "result");
+        setNetworkData(data.data);
       });
   }, []);
   return (
