@@ -4,7 +4,7 @@ export default class Reset extends Component{
     constructor(props){
         super (props);
         this.state={
-            email: "",
+            email: "moaosint@gmail.com",
 
         };
         this.handleSumbit =this.handleSumbit.bind(this);

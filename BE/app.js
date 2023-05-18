@@ -74,43 +74,6 @@ app.post("/network-connections", (req, res) => {
       });
   });
 
-//   app.post("/hashes", async (req, res) => {
-//     const { email, date } = req.body;
-//     console.log('Credentials: +++++++++++++++++++');
-//     console.log(email, date);
-  
-//     try {
-//       // Retrieve the objects from MongoDB
-//       const objects = await ObjectModel.find({ email, date });
-  
-//       // Retrieve the SHA256 hashes and add metadata from MongoDB to the results
-//       const sha256List = await getHashes(email, date);
-//       const results = await Promise.all(
-//         sha256List.slice(0, 4).map(async (sha256) => {
-//           const result = await scanHash(sha256);
-  
-//           // Find the corresponding object in MongoDB
-//           const object = objects.find((o) => o.sha256 === sha256);
-  
-//           // Add metadata to the result
-//           if (object) {
-//             result.path = object['file path'];
-//             result.name = object['file name'];
-//             result.instance = object['instance of'];
-//           }
-  
-//           return result;
-//         })
-//       );
-  
-//       // Send the results
-//       res.send({status:"ok",data:results});
-//       console.log(results);
-//     } catch (error) {
-//       console.error(error);
-//       res.send({status:"error",error});
-//     }
-//   });
 
 app.post("/register",async(req,res)=>{
     const {fname,lname,email,password, userType}=req.body;
@@ -210,7 +173,7 @@ var transporter = nodemailer.createTransport({
 
 var mailOptions = {
   from: 'moaosint@gmail.com',
-  to: User.email,
+  to: 'moaosint@gmail.com',
   subject: 'password reset',
   text: link
 };
