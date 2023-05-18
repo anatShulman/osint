@@ -1,17 +1,16 @@
 import React, { useEffect, useState } from 'react';
-import { DataGrid } from '@mui/x-data-grid';
+
 import {
-  AppBar,
-  Button,
-  Toolbar,
+
+
   Typography,
-  makeStyles,
+ 
 } from '@material-ui/core';
 
 const SuspiciousResults = () => {
   const [filesData, setFilesData] = useState([]);
   const [networkData, setNetworkData] = useState([]);
-  const [reviewScore, setReviewScore] = useState(100);
+ 
 
   useEffect(() => {
     const email = null;

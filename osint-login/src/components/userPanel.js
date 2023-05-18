@@ -1,9 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import ReviewsBar from './reviews/ReviewsBar';
-import { Grid, Typography } from '@material-ui/core';
-import GaugeChart from 'react-gauge-chart';
-import { Email, Javascript, Margin } from '@mui/icons-material';
-import LinearProgress from '@material-ui/core/LinearProgress';
+import {  Typography } from '@material-ui/core';
+
 
 const UserPanel = () => {
   const [filesData, setFilesData] = useState([]);
